@@ -114,7 +114,7 @@ def build():
 <div class="box ink" style="margin:0"><p style="font-family:Fredoka;font-size:22pt;font-weight:700;color:#FFC83D;margin:0">{round(sum(max(t) for _, (_, t) in wins)/len(wins))}/100</p><p>score moyen des options retenues</p></div></div>
 <h2>Les 8 décisions qui pèsent le plus</h2>
 {table(["Décision", "Retenu", "Pourquoi ça convertit"], [
- ["Nom", "<b>Bobiko</b> (bobiko.fr libre)", "Profil sonore idéal (B→K, sons ronds) ; papoto.com et papoto.fr déjà pris : risque juridique écarté."],
+ ["Nom", "<b>Bobiko</b>, sur maison-ivy.com", "Profil sonore idéal (B→K, sons ronds) ; papoto.com et papoto.fr déjà pris : risque juridique écarté."],
  ["Titre", "<b>« S'il peut le dire, ça l'imprime. »</b>", "Mot pour mot l'accroche des pubs : le visiteur sait en 1 seconde qu'il est au bon endroit."],
  ["Média du hero", "<b>Vidéo muette 8 s</b>, poster photo action", "Montre le sticker qui sort (preuve sensorielle) sans risque de chargement."],
  ["Ordre des blocs", "<b>Montrer avant de vendre</b>", "Galerie d'idées remontée en 4e position : l'angle est prouvé avant qu'on parle d'argent."],

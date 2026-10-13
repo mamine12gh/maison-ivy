@@ -278,7 +278,7 @@ SECTIONS = [
            ("Kit Créatif", "Notre recommandation · La machine + 10 rouleaux + 12 feutres + classeur à stickers · ≈ 600 stickers · 0,17 € le sticker · <b>99 €</b> · −36 €"),
            ("Kit Fratrie", "2 machines + 10 rouleaux + 2 boîtes de crayons · Soit 74,50 € la machine · <b>149 €</b> · −29 €"),
            ("Dans votre boîte", "Machine Bobiko + 3 rouleaux + 6 crayons 79 € · 7 rouleaux en plus (≈ 420 stickers) 35 € · 12 feutres lavables 12 € · Classeur à stickers 9 € · Guide « 100 idées pour commencer » offert"),
-           ("Note", "Valeurs = prix de chaque élément vendu séparément sur bobiko.fr."),
+           ("Note", "Valeurs = prix de chaque élément vendu séparément sur maison-ivy.com."),
            ("Total", "Seulement <b>99 €</b> <s>135 €</s> · Vous économisez 36 €"),
            ("Bouton", "Je veux mon Bobiko →"), ("Paiement", "Apple Pay · Google Pay · PayPal · ou en 3 fois sans frais : 3 × 33 €"),
            ("Assurances", "Livraison offerte, 48-72 h · Garantie 2 ans · 30 jours satisfait ou remboursé · Réponse sous 24 h"),
@@ -325,7 +325,7 @@ SECTIONS = [
            ("Q3", "<b>Est-ce sûr pour mon enfant ? Où va sa voix ?</b> Bobiko est conforme aux normes CE et EN 71 (certificats disponibles sur demande). Sa voix sert uniquement à créer le dessin : [elle est transformée en texte puis effacée, jamais conservée ni utilisée pour de la publicité]."),
            ("Q4", "<b>Faut-il un téléphone ou le Wi-Fi ?</b> [Le Wi-Fi sert à créer les dessins. Le réglage se fait une seule fois depuis l'application, en 3 minutes ; ensuite, votre enfant n'a besoin que du bouton.]"),
            ("Q5", "<b>À partir de quel âge ?</b> Dès [4 ans] : un seul bouton, aucune lecture nécessaire. Les plus grands (jusqu'à 10-11 ans) s'amusent à inventer des idées de plus en plus folles."),
-           ("Q6", "<b>Combien de stickers par rouleau, et où en racheter ?</b> Environ [60] stickers par rouleau. Les recharges sont sur bobiko.fr : 5 rouleaux ([300] stickers) pour 25 €, livrés en 48-72 h."),
+           ("Q6", "<b>Combien de stickers par rouleau, et où en racheter ?</b> Environ [60] stickers par rouleau. Les recharges sont sur maison-ivy.com : 5 rouleaux ([300] stickers) pour 25 €, livrés en 48-72 h."),
            ("Q7", "<b>Comprend-il bien le français ?</b> Oui. Il comprend le français et plus de 15 autres langues. Les phrases courtes d'enfant marchent très bien : « un chat astronaute » suffit."),
            ("Q8", "<b>Et si le dessin ne convient pas à un enfant ?</b> [Les demandes inadaptées aux enfants sont filtrées et remplacées par un dessin neutre.] Si un dessin vous paraît bizarre, écrivez-nous : on regarde avec vous."),
            ("Q9", "<b>Est-ce un bon cadeau de Noël ?</b> Oui : il arrive dans une boîte cadeau prête à offrir. Pour Noël, commandez avant le [18 décembre].")]),
@@ -334,12 +334,12 @@ SECTIONS = [
    ("Mise en page", "Fond crème, centré : titre, phrase, bouton principal, bouton secondaire contour encre, e-mail sélectionnable."),
    ("Interactions", "« Voir la démo (30 s) » ouvre la vidéo longue en plein écran (lecteur natif)."),
   ], copy=[("Titre H2", "Vous hésitez encore ?"), ("Texte", "Regardez 30 secondes de démo, ou posez-nous votre question : un vrai humain vous répond sous 24 h."),
-           ("Boutons", "Je veux mon Bobiko → · Voir la démo (30 s)"), ("Contact", "Écrivez-nous : bonjour@bobiko.fr")]),
+           ("Boutons", "Je veux mon Bobiko → · Voir la démo (30 s)"), ("Contact", "Écrivez-nous : bonjour@maison-ivy.com (adresse à créer sur votre domaine ; éviter d'afficher l'adresse Gmail)")]),
  dict(id="S15", t="Pied de page", shot="s15", rows=[
    ("Objectif", "Confiance légale, sans fuite."),
    ("Mise en page", "Fond encre, logo crème, slogan, liens légaux, pastilles de paiement, copyright."),
   ], copy=[("Liens", "Livraison et retours · CGV · Mentions légales · Confidentialité et données vocales · Contact"),
-           ("Paiements", "Visa · Mastercard · CB · Apple Pay · Google Pay · PayPal"), ("Mentions", "S'il peut le dire, ça l'imprime. · © 2026 Bobiko")]),
+           ("Paiements", "Visa · Mastercard · CB · Apple Pay · Google Pay · PayPal"), ("Mentions", "S'il peut le dire, ça l'imprime. · Bobiko, une marque Maison Ivy · maison-ivy.com · © 2026")]),
  dict(id="S16", t="Barre fixe (mobile et ordinateur)", shot="s16", rows=[
    ("Comportement", "Apparaît (glissement 250 ms) dès que le bouton du hero sort de l'écran par le haut ; disparaît quand la boîte d'achat de l'offre est visible à 25 %, pour éviter le doublon."),
    ("Mise en page", "Fond blanc 97 % + flou, ombre vers le haut. Vignette 48 px · prix Fredoka 20 px + nom du kit en vert · bouton 52 px à droite. Marge basse = zone de sécurité de l'iPhone."),
@@ -399,7 +399,7 @@ def build():
     b.append(f'''<h2>2.1 Nom et slogan</h2>
 {kv([("Nom", "<b>Bobiko</b> (B-o-b-i-k-o). Dans le texte : « Bobiko », majuscule. Dans le logo : « bobiko », minuscules."),
  ("Pourquoi", "Évoque la bobine de papier ; consonnes de l'avant vers l'arrière (B→K) qui aident la mémorisation ; sons ronds et doux ; 3 syllabes ; une seule orthographe."),
- ("Domaine", "bobiko.fr disponible au 12/10/2026 (vérifié avec l'outil de domaines Shopify) ; bobiko.com déjà pris. Réserver bobiko.fr et les comptes @bobiko.fr sur Instagram et TikTok."),
+ ("Domaine", "Aucun changement : la page est publiée sur votre domaine actuel <b>maison-ivy.com</b> (par exemple maison-ivy.com/products/bobiko). Bobiko est une marque produit de Maison Ivy, pas un nouveau site. Réserver seulement les comptes @bobiko sur Instagram et TikTok si disponibles."),
  ("À faire avant usage", "Recherche INPI et EUIPO (classes 9, 16, 28), puis dépôt."),
  ("Slogan", "« S'il peut le dire, ça l'imprime. » · signature secondaire pour les pubs : « Une idée dite, un sticker tout de suite. »")])}
 <h2>2.2 Logo</h2>
@@ -479,7 +479,7 @@ def build():
         ["Valeur des éléments séparés", "—", "135 €", "178 €"], ["Économie affichée", "—", "Vous économisez 36 €", "Vous économisez 29 €"],
         ["Prix unitaire affiché", "0,44 € le sticker", "0,17 € le sticker", "74,50 € la machine"], ["3 fois sans frais", "3 × 26,33 €", "3 × 33 €", "3 × 49,67 €"],
         ["Rôle", "Prix d'appel, montré dans le hero", "Pack visé, présélectionné", "Ancre haute, familles de 2 enfants"]], widths=["22%", "26%", "26%", "26%"]))
-    b.append(table(["Article vendu seul (sur bobiko.fr)", "Prix", "Remarque"], [
+    b.append(table(["Article vendu seul (sur maison-ivy.com)", "Prix", "Remarque"], [
         ["Recharge 5 rouleaux (≈ 300 stickers)", "25 €", "Proposée dans le tiroir panier ; abonnement possible plus tard"],
         ["7 rouleaux (ligne de calcul)", "35 €", "Soit 5 € le rouleau, comme la recharge"], ["12 feutres lavables", "12 €", "Doit exister en fiche produit pour justifier l'ancrage"],
         ["Classeur à stickers", "9 €", "Idem"], ["Guide « 100 idées pour commencer »", "offert", "PDF + livret imprimé dans la boîte"]], widths=["44%", "12%", "44%"]))
@@ -510,7 +510,9 @@ def build():
     # 7 shopify
     b.append(chap("p7", "7", "Mise en place Shopify et performance"))
     b.append(table(["Sujet", "Réglage"], [
-        ["Boutique", "Boutique ou domaine dédié bobiko.fr, séparé de Maison Ivy (vêtements)."],
+        ["Domaine", "Domaine actuel maison-ivy.com conservé. La landing est la page produit Bobiko (ex. maison-ivy.com/products/bobiko), sur un modèle de page dédié : sans menu, sans lien vers les vêtements, logo Bobiko dans l'en-tête. Les pubs pointent directement sur cette URL."],
+        ["Marque et confiance", "Pied de page « Bobiko, une marque Maison Ivy » ; mentions légales, CGV et e-mail au nom de Maison Ivy (bonjour@maison-ivy.com à créer, plutôt que l'adresse Gmail)."],
+        ["Devise", "La boutique est en USD : activer Shopify Markets avec un marché Europe en EUR (prix fixés à 79, 99 et 149 €, pas de conversion automatique qui donnerait 78,63 €)."],
         ["Thème", "Dawn ou thème « one product » rapide ; un modèle de page produit dédié avec une section par bloc (S0-S15)."],
         ["Packs", "3 variantes ou appli de bundles ; Kit Créatif par défaut ; fiches séparées pour recharges, feutres, classeur (ancrage)."],
         ["Barre fixe et tiroir", "Barre fixe personnalisée (comportement S16) ; tiroir panier natif + upsell d'un seul produit."],
