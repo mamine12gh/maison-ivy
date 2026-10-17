@@ -1,0 +1,18 @@
+{%- comment -%}
+  Image or placeholder at the right size.
+  Params: image, id (IMG-xx), label, size (px to produce), ratio (CSS, e.g. 4/3), sizes, eager
+{%- endcomment -%}
+{%- if image != blank -%}
+  {%- assign ip_alt = image.alt | default: label -%}
+  {%- assign ip_style = 'aspect-ratio:' | append: ratio -%}
+  {%- if eager -%}
+    {{ image | image_url: width: 2000 | image_tag: widths: '400, 600, 800, 1200, 1600, 2000', sizes: sizes, alt: ip_alt, class: 'ip-img', fetchpriority: 'high', loading: 'eager', style: ip_style }}
+  {%- else -%}
+    {{ image | image_url: width: 1600 | image_tag: widths: '400, 600, 800, 1200, 1600', sizes: sizes, alt: ip_alt, class: 'ip-img', loading: 'lazy', style: ip_style }}
+  {%- endif -%}
+{%- else -%}
+  <div class="ip-ph" style="aspect-ratio:{{ ratio }}" role="img" aria-label="{{ label | escape }}">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8H8L9.5 5.5H14.5L16 8H20V19H4Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+    <b>{{ id }}</b><span>{{ label }}</span><small>{{ size }}</small>
+  </div>
+{%- endif -%}

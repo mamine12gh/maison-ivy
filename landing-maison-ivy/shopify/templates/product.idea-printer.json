@@ -1,0 +1,14 @@
+{
+  "layout": "idea-printer",
+  "sections": {
+    "main": {
+      "type": "idea-printer-landing",
+      "settings": {
+        "refill_product": "idea-printer-refill-5-rolls",
+        "markers_product": "washable-markers-set-of-12",
+        "binder_product": "sticker-binder"
+      }
+    }
+  },
+  "order": ["main"]
+}

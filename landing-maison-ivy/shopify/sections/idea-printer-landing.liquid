@@ -1,0 +1,951 @@
+{%- comment -%}
+  Landing page "The Idea Printer" (Maison Ivy): sections S0 to S17 of the final proposal.
+  Images: every visual is an image setting of this section; empty = placeholder at the size to produce.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign v_starter = product.variants[0]
+  assign v_creative = product.variants[1]
+  assign v_siblings = product.variants[2]
+  assign default_variant = v_creative | default: product.selected_or_first_available_variant
+
+  assign roll_price = 500
+  assign markers_price = 1200
+  assign binder_price = 900
+  if s.refill_product != blank
+    assign roll_price = s.refill_product.price | divided_by: 5
+  endif
+  if s.markers_product != blank
+    assign markers_price = s.markers_product.price
+  endif
+  if s.binder_product != blank
+    assign binder_price = s.binder_product.price
+  endif
+
+  assign starter_price = v_starter.price | default: 7900
+  assign creative_value = roll_price | times: 7 | plus: markers_price | plus: binder_price | plus: starter_price
+  assign siblings_value = roll_price | times: 4 | plus: starter_price | plus: starter_price
+  assign creative_save = creative_value | minus: v_creative.price
+  assign siblings_save = siblings_value | minus: v_siblings.price
+  assign starter_unit = v_starter.price | divided_by: s.starter_stickers
+  assign creative_unit = v_creative.price | divided_by: s.creative_stickers
+  assign siblings_unit = v_siblings.price | divided_by: 2
+
+  assign show_rating = false
+  if s.review_count >= 10 or s.show_examples
+    assign show_rating = true
+  endif
+  assign cta = s.cta_label | default: 'Get my Idea Printer'
+-%}
+
+<style>
+  .ip{--coral:#FF5A36;--cta:#E8431F;--cta-h:#D23714;--yellow:#FFC83D;--ink:#1E1B2E;--cream:#FFF6EC;--cream-2:#FBEAD6;--paper:#FFFFFF;--sky:#2F5BEA;--green:#1E8A5E;--muted:#5F5870;--line:#EADFD2;
+    --f-display:'Fredoka','Nunito',ui-rounded,system-ui,sans-serif;--f-body:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;--f-hand:'Caveat','Comic Sans MS',cursive;
+    --r-s:12px;--r-m:20px;--r-l:28px;--shadow:0 10px 30px -12px rgba(30,27,46,.25);--wrap:1120px;
+    background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:84px}
+  body{margin:0;background:#fff}
+  .ip *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.ip *{animation:none!important;transition:none!important}}
+  .ip h1,.ip h2,.ip h3{font-family:var(--f-display);font-weight:700;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em;color:var(--ink)}
+  .ip h2{font-size:clamp(28px,6.4vw,42px)}
+  .ip h3{font-size:20px;font-weight:600;line-height:1.2}
+  .ip p{margin:0}
+  .ip a{color:var(--sky)}
+  .ip button{font:inherit;color:inherit}
+  .ip :focus-visible{outline:3px solid var(--sky);outline-offset:3px;border-radius:6px}
+  .ip [hidden]{display:none!important}
+  .ip-wrap{max-width:var(--wrap);margin:0 auto;padding-inline:16px}
+  .ip-narrow{max-width:640px;margin:0 auto}
+  .ip section{padding-block:56px}
+  .ip .alt{background:var(--cream)}
+  .ip-eyebrow{font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--cta);margin-bottom:10px}
+  .ip-center{text-align:center}
+  .ip-ex{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;background:#E9EEFF;color:#1B2A6B;border-radius:4px;padding:1px 6px;justify-self:start;display:inline-block}
+  .ip-preview{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#E9EEFF;color:#1B2A6B;border-bottom:1px dashed #9AAAE8;padding:8px 16px;text-align:center}
+  .ip-img{display:block;width:100%;height:auto;object-fit:cover;border-radius:inherit;max-width:100%}
+  .ip-ph{display:grid;place-content:center;justify-items:center;gap:4px;text-align:center;padding:14px;width:100%;max-width:100%;border-radius:inherit;
+    background:repeating-linear-gradient(135deg,rgba(30,27,46,.035) 0 10px,transparent 10px 20px),var(--cream-2);color:var(--muted);font-size:13px;line-height:1.3}
+  .ip-ph svg{width:28px;height:28px;color:var(--coral)}
+  .ip-ph b{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--ink)}
+  .ip-ph span{max-width:32ch}
+  .ip-ph small{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--cta)}
+
+  /* S0 / S1 */
+  .ip-bar{background:var(--ink);color:var(--cream);font-size:13px;font-weight:700;text-align:center;padding:8px 16px}
+  .ip-bar i{font-style:normal;color:var(--yellow);margin-inline:6px}
+  .ip-bar span{white-space:nowrap}
+  .ip-top{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;max-width:var(--wrap);margin:0 auto}
+  .ip-logo{font-family:var(--f-display);font-weight:700;font-size:28px;letter-spacing:-.02em;color:var(--ink)!important;text-decoration:none;line-height:1;white-space:pre}
+  .ip-logo .iv{position:relative;display:inline-block}
+  .ip-logo .iv svg{position:absolute;width:.42em;height:.42em;left:50%;top:-.07em;transform:translateX(-42%)}
+  .ip-cart{position:relative;width:44px;height:44px;border-radius:50%;border:0;background:transparent;display:grid;place-items:center;cursor:pointer}
+  .ip-cart svg{width:26px;height:26px}
+  .ip-cart .n{position:absolute;top:4px;right:2px;background:var(--cta);color:#fff;font-size:11px;font-weight:800;min-width:18px;height:18px;border-radius:9px;display:grid;place-items:center;padding:0 4px}
+
+  /* boutons */
+  .ip-cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:58px;padding:14px 22px;border:0;border-radius:999px;background:var(--cta);color:#fff!important;font-family:var(--f-display);font-weight:600;font-size:20px;text-decoration:none;cursor:pointer;box-shadow:0 6px 0 var(--cta-h);transition:transform .12s,box-shadow .12s,background .12s}
+  .ip-cta:hover{background:var(--cta-h)}
+  .ip-cta:active{transform:translateY(4px);box-shadow:0 2px 0 var(--cta-h)}
+  .ip-cta[disabled]{opacity:.6;cursor:wait}
+  .ip-cta .arr{transition:transform .2s}
+  .ip-cta:hover .arr{transform:translateX(4px)}
+  .ip-cta.pulse{animation:ip-pulse 1.6s ease-out 1.2s 2}
+  @keyframes ip-pulse{0%{box-shadow:0 6px 0 var(--cta-h),0 0 0 0 rgba(232,67,31,.45)}100%{box-shadow:0 6px 0 var(--cta-h),0 0 0 18px rgba(232,67,31,0)}}
+  .ip-ghost{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;border:2px solid var(--ink);background:transparent;border-radius:999px;font-weight:800;font-size:17px;color:var(--ink)!important;text-decoration:none;cursor:pointer}
+  .ip-sec-cta{max-width:420px;margin:32px auto 0}
+  .ip-reassure{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px;margin-top:12px;font-size:13.5px;color:var(--muted);font-weight:700}
+  .ip-reassure span{display:inline-flex;align-items:center;gap:5px}
+  .ip-reassure svg{width:16px;height:16px;color:var(--green)}
+
+  /* S2 hero */
+  .ip-hero{padding-block:8px 40px!important}
+  .ip-hero-grid{display:grid;gap:18px}
+  .ip-hero-text{display:grid;gap:14px;align-content:start}
+  .ip-badges{display:flex;flex-wrap:wrap;gap:8px}
+  .ip-badge{display:inline-flex;align-items:center;gap:6px;background:var(--cream);border:1.5px solid var(--line);border-radius:999px;padding:5px 12px;font-size:14px;font-weight:800}
+  .ip-badge svg{width:16px;height:16px}
+  .ip-badge.y{background:var(--yellow);border-color:var(--yellow)}
+  .ip-hero h1{font-size:clamp(34px,9.2vw,60px);text-wrap:initial}
+  .ip-hero h1 em{font-style:normal;color:var(--cta)}
+  .ip-stars{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:var(--muted);flex-wrap:wrap}
+  .ip-stars .s{color:#F2A900;letter-spacing:1px;font-size:17px}
+  .ip-stars a{color:var(--muted)}
+  .ip-sub{font-size:18px;color:#3A3550}
+  .ip-price-line{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-weight:700}
+  .ip-price-line .from{font-size:15px;color:var(--muted)}
+  .ip-price-line .p{font-family:var(--f-display);font-size:30px;font-weight:700}
+  .ip-price-line .free{font-size:15px;color:var(--green)}
+  .ip-media{display:grid;gap:10px;min-width:0}
+  .ip-stage{position:relative;border-radius:var(--r-l);overflow:hidden;background:var(--cream)}
+  .ip-stage > .ip-slide{border-radius:var(--r-l);overflow:hidden}
+  .ip-stage video{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+  .ip-thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+  .ip-thumbs button{border-radius:12px;border:2px solid transparent;background:var(--cream-2);padding:0;cursor:pointer;overflow:hidden;font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--muted);height:52px}
+  .ip-thumbs button[aria-current="true"]{border-color:var(--ink)}
+  .ip-thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+  @media (min-width:960px){.ip-hero{padding-block:24px 64px!important}.ip-hero-grid{grid-template-columns:1.08fr 1fr;gap:48px;align-items:center}.ip-hero-text{order:2}.ip-media{order:1}}
+  @media (max-width:959px){.ip-hero-grid{display:flex;flex-direction:column}.ip-hero-text{display:contents}.ip-h-top{order:1;display:grid;gap:10px}.ip-media{order:2}.ip-h-bottom{order:3;display:grid;gap:14px}.ip-badge{font-size:13.5px;padding:4px 10px}.ip-thumbs button{height:44px}}
+
+  /* S3 */
+  .ip-numbers{padding-block:28px;background:var(--ink);color:var(--cream)}
+  .ip-numbers .row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;max-width:820px;margin:0 auto}
+  .ip-numbers .big{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,10vw,56px);line-height:1;color:var(--yellow)}
+  .ip-numbers .big small{font-size:.5em;margin-left:2px}
+  .ip-numbers p{font-size:14px;font-weight:700;margin-top:6px;opacity:.92}
+
+  /* S4 */
+  .ip-steps{display:grid;gap:18px;margin-top:28px}
+  .ip-step{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center}
+  .ip-step .m{border-radius:var(--r-m);overflow:hidden}
+  .ip-step .n{font-family:var(--f-display);font-weight:700;font-size:15px;color:var(--cta)}
+  .ip-step h3{margin:2px 0 4px}
+  .ip-step p{color:var(--muted);font-size:16px}
+  .ip-step .quote{font-family:var(--f-hand);font-size:23px;color:var(--ink);line-height:1.1}
+  .ip-step .ip-ph{font-size:10.5px;padding:6px}.ip-step .ip-ph span{display:none}
+  .ip-ai{margin-top:24px;background:var(--paper);border:1.5px dashed var(--line);border-radius:var(--r-m);padding:14px 16px;font-size:15px;color:var(--muted)}
+  @media (min-width:860px){.ip-steps{grid-template-columns:repeat(3,1fr);gap:28px}.ip-step{grid-template-columns:1fr}.ip-step .ip-ph span{display:block}}
+
+  /* S5 */
+  .ip-ideas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:28px}
+  .ip-idea{background:var(--paper);border-radius:var(--r-m);padding:14px 12px 16px;display:grid;gap:10px;justify-items:center;text-align:center;border:1.5px solid var(--line);margin:0}
+  .ip-idea q{font-family:var(--f-hand);font-weight:700;font-size:22px;line-height:1.05}
+  .ip-idea .arrow{width:22px;height:22px;color:var(--coral)}
+  .ip-idea .st{width:min(130px,100%);border-radius:6px;overflow:hidden;box-shadow:0 1px 0 #E3D8CB,0 8px 18px -10px rgba(30,27,46,.45);transform:rotate(-2deg)}
+  .ip-idea:nth-child(even) .st{transform:rotate(2.2deg)}
+  .ip-idea .st .ip-ph{font-size:10.5px;padding:6px}.ip-idea .st .ip-ph span{display:none}
+  .ip-note{text-align:center;font-size:14px;color:var(--muted);margin-top:16px}
+  @media (min-width:860px){.ip-ideas{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.ip-idea .st{width:160px}}
+
+  /* S6 */
+  .ip-ben-grid{display:grid;gap:28px;margin-top:28px}
+  .ip-benefits{display:grid;gap:14px}
+  .ip-benefit{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start;background:var(--paper);border-radius:var(--r-m);padding:16px;border:1.5px solid var(--line)}
+  .ip-benefit .ic{width:48px;height:48px;border-radius:14px;background:var(--yellow);display:grid;place-items:center}
+  .ip-benefit .ic svg{width:26px;height:26px}
+  .ip-benefit h3{font-size:19px}
+  .ip-benefit h3 span{color:var(--muted);font-family:var(--f-body);font-weight:700;font-size:15px;display:block;margin-top:3px}
+  .ip-benefit p{font-size:15.5px;color:var(--muted);margin-top:6px}
+  .ip-exploded{border-radius:var(--r-l);overflow:hidden}
+  .ip-callouts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+  .ip-callouts div{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r-s);padding:8px 10px;font-size:14px;font-weight:700}
+  .ip-callouts small{display:block;font-weight:600;color:var(--muted);font-size:12.5px}
+  .ip-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .ip-pill{background:var(--ink);color:var(--cream);border-radius:999px;padding:6px 12px;font-size:14px;font-weight:800}
+  .ip-specs{margin-top:16px;border-top:1.5px solid var(--line);padding-top:10px}
+  .ip-specs summary{cursor:pointer;font-weight:800;min-height:44px;display:flex;align-items:center}
+  .ip-specs dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:14.5px;margin:6px 0 0}
+  .ip-specs dt{color:var(--muted)}.ip-specs dd{margin:0;font-weight:700}
+  @media (min-width:960px){.ip-ben-grid{grid-template-columns:1fr 1fr;align-items:start;gap:48px}.ip-ben-media{order:-1}}
+
+  /* S7 */
+  .ip-offer{background:var(--cream)}
+  .ip-offer-grid{display:grid;gap:24px;margin-top:24px}
+  .ip-quiz{background:var(--paper);border-radius:var(--r-m);padding:16px;border:1.5px solid var(--line)}
+  .ip-quiz p{font-weight:800}
+  .ip-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .ip-chip{min-height:44px;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--paper);font-weight:800;cursor:pointer;font-size:15.5px;flex:none}
+  .ip-chip[aria-pressed="true"]{border-color:var(--ink);background:var(--yellow)}
+  .ip-quiz-out{margin-top:10px;font-family:var(--f-hand);font-size:23px;line-height:1.15;color:var(--cta)}
+  .ip-quiz-out:empty{display:none}
+  .ip-packs{display:grid;gap:12px;border:0;padding:0;margin:0;min-width:0}
+  .ip-packs legend{font-family:var(--f-display);font-weight:700;font-size:26px;margin-bottom:12px;padding:0}
+  .ip-pack{position:relative;display:grid;grid-template-columns:24px 64px 1fr auto;gap:12px;align-items:center;background:var(--paper);border:2.5px solid var(--line);border-radius:var(--r-m);padding:14px;cursor:pointer}
+  .ip-pack:has(.tag){padding-top:24px}
+  .ip-pack input{appearance:none;-webkit-appearance:none;width:24px;height:24px;border-radius:50%;border:2.5px solid #B9AEC4;margin:0;display:grid;place-items:center;cursor:pointer}
+  .ip-pack input:checked{border-color:var(--cta)}
+  .ip-pack input:checked::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--cta)}
+  .ip-pack:has(input:checked){border-color:var(--cta);box-shadow:0 0 0 4px rgba(232,67,31,.12)}
+  .ip-pack .thumb{width:64px;height:64px;border-radius:14px;overflow:hidden;background:var(--cream-2)}
+  .ip-pack .thumb .ip-ph{height:64px;font-size:9px;padding:2px}.ip-pack .thumb .ip-ph span,.ip-pack .thumb .ip-ph svg{display:none}
+  .ip-pack .name,.ip-pack .desc,.ip-pack .unit{display:block}
+  .ip-pack .name{font-family:var(--f-display);font-weight:600;font-size:19px;line-height:1.1}
+  .ip-pack .desc{font-size:14px;color:var(--muted);line-height:1.35;margin-top:3px}
+  .ip-pack .unit{font-size:13px;font-weight:800;color:var(--green);margin-top:4px}
+  .ip-pack .pr{text-align:right;white-space:nowrap}
+  .ip-pack .pr b{display:block;font-family:var(--f-display);font-size:22px}
+  .ip-pack .tag{position:absolute;top:-12px;left:52px;background:var(--ink);color:var(--yellow);font-size:12px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:3px 10px}
+  .ip-save{display:inline-block;background:#E3F4EC;color:var(--green);font-weight:900;font-size:12.5px;border-radius:6px;padding:2px 7px;margin-top:4px}
+  .ip-buybox{background:var(--paper);border-radius:var(--r-l);padding:20px;border:1.5px solid var(--line);box-shadow:var(--shadow);display:grid;gap:14px;align-content:start;min-width:0}
+  .ip-inbox h3{font-size:17px;font-family:var(--f-body);font-weight:900}
+  .ip-inbox ul{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:7px}
+  .ip-inbox li{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;font-size:15px}
+  .ip-inbox li svg{width:20px;height:20px;color:var(--green)}
+  .ip-inbox li em{font-style:normal;color:var(--muted);font-size:13.5px}
+  .ip-inbox .note{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .ip-total{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-top:1.5px dashed var(--line);padding-top:14px}
+  .ip-total .only{font-weight:800;color:var(--muted)}
+  .ip-total .big{font-family:var(--f-display);font-weight:700;font-size:44px;line-height:1;color:var(--cta)}
+  .ip-total s{color:#8B8398;font-weight:700;font-size:18px}
+  .ip-total .ip-save{font-size:14px}
+  .ip-form{display:grid;gap:10px}
+  .ip-form .shopify-payment-button__button{border-radius:12px;min-height:48px}
+  .ip-form .shopify-payment-button__more-options{display:none}
+  .ip-terms{font-size:14px;text-align:center;color:var(--muted)}
+  .ip-guar{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .ip-guar div{display:flex;gap:8px;align-items:center;font-size:13.5px;font-weight:800;background:var(--cream);border-radius:12px;padding:9px 10px;line-height:1.25}
+  .ip-guar svg{width:22px;height:22px;flex:none}
+  .ip-gift{display:flex;gap:10px;align-items:center;font-size:14.5px;font-weight:700;background:#FFF3C9;border-radius:12px;padding:10px 12px}
+  .ip-gift svg{width:22px;height:22px;flex:none;color:var(--cta)}
+  .ip-error{color:var(--sky);font-weight:800;font-size:14px}
+  @media (min-width:960px){.ip-offer-grid{grid-template-columns:1.05fr 1fr;align-items:start;gap:40px}.ip-buybox{position:sticky;top:20px}}
+
+  /* S8 */
+  .ip-cmp-wrap{overflow-x:auto;margin-top:28px;border-radius:var(--r-m);border:1.5px solid var(--line)}
+  .ip-cmp{width:100%;border-collapse:collapse;background:var(--paper);font-size:15px}
+  .ip-cmp th,.ip-cmp td{padding:12px 8px;text-align:center;border-bottom:1px solid var(--line)}
+  .ip-cmp th:first-child,.ip-cmp td:first-child{text-align:left;font-weight:700;width:46%}
+  .ip-cmp thead th{font-family:var(--f-display);font-weight:600;font-size:15px;line-height:1.15;background:var(--cream)}
+  .ip-cmp thead th.us{background:var(--ink);color:var(--yellow)}
+  .ip-cmp td.us{background:#FFF1EC}
+  .ip-cmp tr:last-child td{border-bottom:0}
+  .ip-yes,.ip-no{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%}
+  .ip-yes{background:#E3F4EC;color:var(--green)}.ip-no{background:#F1EEF4;color:#8B8398}
+  .ip-yes svg,.ip-no svg{width:16px;height:16px}
+
+  /* S9 */
+  .ip-emo-grid{display:grid;gap:20px;margin-top:24px}
+  .ip-emo-img{border-radius:var(--r-l);overflow:hidden}
+  .ip-moments{display:grid;gap:12px}
+  .ip-moment{display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:center;background:var(--paper);border-radius:var(--r-m);padding:10px;border:1.5px solid var(--line)}
+  .ip-moment .m{border-radius:14px;overflow:hidden}
+  .ip-moment .ip-ph{font-size:9px;padding:3px}.ip-moment .ip-ph span,.ip-moment .ip-ph svg{display:none}
+  .ip-moment h3{font-size:17.5px}
+  .ip-moment p{font-size:14.5px;color:var(--muted);margin-top:3px}
+  @media (min-width:960px){.ip-emo-grid{grid-template-columns:1.2fr 1fr;align-items:center;gap:40px}}
+
+  /* S10 */
+  .ip-testis{display:grid;gap:14px;margin-top:28px}
+  .ip-testi{background:var(--paper);border-radius:var(--r-m);overflow:hidden;border:1.5px solid var(--line);display:grid}
+  .ip-testi .body{padding:16px;display:grid;gap:8px}
+  .ip-testi blockquote{margin:0;font-size:17px;font-weight:700;line-height:1.4}
+  .ip-testi .who{font-size:14px;color:var(--muted)}
+  .ip-testi .who b{color:var(--ink)}
+  @media (min-width:860px){.ip-testis{grid-template-columns:repeat(3,1fr)}}
+
+  /* S11 */
+  .ip-rev-head{display:grid;gap:18px;margin-top:24px;background:var(--paper);border-radius:var(--r-m);padding:18px;border:1.5px solid var(--line)}
+  .ip-score{display:flex;align-items:center;gap:14px}
+  .ip-score .big{font-family:var(--f-display);font-weight:700;font-size:52px;line-height:1}
+  .ip-score .s{color:#F2A900;font-size:20px;letter-spacing:2px}
+  .ip-score small{display:block;color:var(--muted);font-weight:700;font-size:14px}
+  .ip-dist{display:grid;gap:6px;font-size:13.5px;font-weight:700}
+  .ip-dist div{display:grid;grid-template-columns:28px 1fr 40px;gap:8px;align-items:center}
+  .ip-dist .tr{height:8px;border-radius:4px;background:#F1EAE1;overflow:hidden}
+  .ip-dist .tr i{display:block;height:100%;background:#F2A900;border-radius:4px}
+  .ip-dist span:last-child{text-align:right;color:var(--muted)}
+  .ip-filters{display:flex;gap:8px;overflow-x:auto;padding:16px 16px 4px;margin-inline:-16px;scrollbar-width:none}
+  .ip-reviews{display:grid;gap:12px;margin-top:10px}
+  .ip-review{background:var(--paper);border-radius:var(--r-m);padding:16px;border:1.5px solid var(--line);display:grid;gap:8px}
+  .ip-review .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .ip-review .s{color:#F2A900;letter-spacing:1px}.ip-review .off{color:#DDD3C6}
+  .ip-review .ver{font-size:12.5px;color:var(--green);font-weight:800}
+  .ip-review p{font-size:15.5px}
+  .ip-review .who{font-size:13.5px;color:var(--muted);font-weight:700}
+  .ip-review .tagl{font-size:12px;font-weight:800;color:var(--muted);background:var(--cream);border-radius:6px;padding:2px 8px}
+  @media (min-width:860px){.ip-rev-head{grid-template-columns:auto 1fr;align-items:center;gap:40px}.ip-reviews{grid-template-columns:1fr 1fr}}
+
+  /* S12 */
+  .ip-promise{background:var(--yellow)!important}
+  .ip-promise .box{display:grid;gap:18px;align-items:center}
+  .ip-seal{width:120px;height:120px;border-radius:50%;background:var(--ink);color:var(--yellow);display:grid;place-content:center;text-align:center;font-family:var(--f-display);font-weight:700;line-height:1;transform:rotate(-8deg);margin:0 auto}
+  .ip-seal b{font-size:44px;display:block}.ip-seal span{font-size:14px}
+  .ip-promise p{font-size:18px;margin-top:8px}
+  .ip-promise ul{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+  .ip-promise li{background:rgba(255,255,255,.6);border-radius:999px;padding:6px 12px;font-weight:800;font-size:14.5px}
+  @media (min-width:860px){.ip-promise .box{grid-template-columns:160px 1fr;gap:36px}.ip-seal{width:150px;height:150px}}
+
+  /* S13 */
+  .ip-faq{margin-top:24px;display:grid;gap:10px}
+  .ip-faq details{background:var(--paper);border-radius:var(--r-m);border:1.5px solid var(--line)}
+  .ip-faq summary{list-style:none;cursor:pointer;padding:16px 52px 16px 18px;font-weight:800;font-size:17px;position:relative;min-height:56px;display:flex;align-items:center}
+  .ip-faq summary::-webkit-details-marker{display:none}
+  .ip-faq summary::after{content:"";position:absolute;right:20px;top:50%;width:12px;height:12px;border-right:3px solid var(--ink);border-bottom:3px solid var(--ink);transform:translateY(-70%) rotate(45deg);transition:transform .2s}
+  .ip-faq details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+  .ip-faq .a{padding:0 18px 18px;color:#3A3550;font-size:16px}
+
+  /* S14 / S15 */
+  .ip-last{display:grid;gap:14px;text-align:center}
+  .ip-last .btns{display:grid;gap:12px;max-width:420px;margin:10px auto 0;width:100%}
+  .ip-contact{font-size:15px;color:var(--muted);font-weight:700}
+  .ip-contact b{color:var(--ink);user-select:all}
+  .ip-footer{background:var(--ink);color:#CFC9DA;padding-block:36px 40px;font-size:14px}
+  .ip-footer .ip-wrap{display:grid;gap:18px}
+  .ip-footer .ip-logo{color:var(--cream)!important;font-size:26px}
+  .ip-footer nav{display:flex;flex-wrap:wrap;gap:6px 16px}
+  .ip-footer nav a{color:#CFC9DA}
+  .ip-pay{display:flex;flex-wrap:wrap;gap:6px}
+  .ip-pay svg{height:24px;width:auto}
+
+  /* S16 */
+  .ip-sticky{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-top:1.5px solid var(--line);box-shadow:0 -8px 24px -16px rgba(30,27,46,.4);padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));transform:translateY(110%);transition:transform .25s}
+  .ip-sticky.on{transform:none}
+  .ip-sticky .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:10px;align-items:center}
+  .ip-sticky .thumb{width:48px;height:48px;border-radius:12px;overflow:hidden;background:var(--cream-2)}
+  .ip-sticky .thumb .ip-ph{height:48px;font-size:8px;padding:1px}.ip-sticky .thumb .ip-ph span,.ip-sticky .thumb .ip-ph svg,.ip-sticky .thumb .ip-ph small{display:none}
+  .ip-sticky .t{min-width:0;line-height:1.2}
+  .ip-sticky .t b{display:block;font-family:var(--f-display);font-size:20px}
+  .ip-sticky .t span{font-size:12.5px;color:var(--green);font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+  .ip-sticky .ip-cta{min-height:52px;font-size:16px;padding:10px 16px;width:auto;box-shadow:0 4px 0 var(--cta-h)}
+
+  /* S17 */
+  .ip-scrim{position:fixed;inset:0;background:rgba(30,27,46,.45);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+  .ip-scrim.on{opacity:1;pointer-events:auto}
+  .ip-drawer{position:fixed;z-index:60;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--paper);transform:translateX(105%);transition:transform .28s;display:grid;grid-template-rows:auto 1fr auto;visibility:hidden}
+  .ip-drawer.on{transform:none;visibility:visible}
+  .ip-drawer .hd{display:flex;justify-content:space-between;align-items:center;padding:16px;border-bottom:1.5px solid var(--line)}
+  .ip-drawer .hd b{font-family:var(--f-display);font-size:21px;color:var(--green)}
+  .ip-x{width:44px;height:44px;border-radius:50%;border:0;background:var(--cream);cursor:pointer;font-size:22px;line-height:1}
+  .ip-drawer .bd{padding:16px;overflow:auto;display:grid;gap:14px;align-content:start}
+  .ip-line{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:10px}
+  .ip-line b{font-family:var(--f-display);font-weight:600}
+  .ip-line small{display:block;color:var(--muted);font-size:13px}
+  .ip-upsell{border:2px dashed var(--line);border-radius:var(--r-m);padding:12px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+  .ip-upsell p{font-size:14.5px}.ip-upsell p b{display:block}
+  .ip-upsell button{min-height:44px;border-radius:999px;border:2px solid var(--ink);background:var(--paper);font-weight:900;padding:0 14px;cursor:pointer}
+  .ip-drawer .ft{padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));border-top:1.5px solid var(--line);display:grid;gap:10px}
+  .ip-drawer .sum{display:flex;justify-content:space-between;font-weight:900;font-size:18px}
+  .ip-drawer .ship{font-size:13.5px;color:var(--green);font-weight:800}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ip-o" viewBox="0 0 40 40"><defs><mask id="ip-lm"><rect x="-5" y="-5" width="50" height="50" fill="#fff"/><path d="M15 1 L38 24 L50 24 L50 -10 L15 -10 Z" fill="#000"/></mask></defs><g mask="url(#ip-lm)" fill="#FF5A36"><circle cx="20" cy="19" r="16"/><path d="M8.5 27 L4 38.5 L17.5 33.5 Z"/></g><path d="M17.24 3.24 Q16.88 22.12 35.76 21.76 Z" fill="#FFE1D6" stroke="#E8431F" stroke-width="1.2" stroke-linejoin="round"/></symbol>
+    <symbol id="ip-check" viewBox="0 0 24 24"><path d="M5 12.5 L10 17 L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ip-xx" viewBox="0 0 24 24"><path d="M7 7 L17 17 M17 7 L7 17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="ip-truck" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M2 6 H14 V16 H2 Z M14 9 H18.5 L22 12.5 V16 H14"/><circle cx="6.5" cy="17.5" r="2" fill="#fff"/><circle cx="17.5" cy="17.5" r="2" fill="#fff"/></g></symbol>
+    <symbol id="ip-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3 L20 6 V12 Q20 18 12 21 Q4 18 4 12 V6 Z"/><path d="M8.5 12 L11 14.5 L15.5 9.5" stroke-linecap="round"/></g></symbol>
+    <symbol id="ip-return" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10 H15 Q20 10 20 15 Q20 20 15 20 H9"/><path d="M8 6 L4 10 L8 14"/></g></symbol>
+    <symbol id="ip-chat" viewBox="0 0 24 24"><path d="M4 5 H20 V16 H10 L5 20 V16 H4 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="ip-gift" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="9" width="17" height="11" rx="1.5"/><path d="M2.5 9 H21.5 V6 H2.5 Z M12 6 V20"/><path d="M12 6 Q8 1.5 6.5 4.5 Q6 6 12 6 Q18 6 17.5 4.5 Q16 1.5 12 6"/></g></symbol>
+    <symbol id="ip-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5 V7.5 Q8 3.5 12 3.5 Q16 3.5 16 7.5 V10.5"/></g></symbol>
+    <symbol id="ip-drop" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 Q18 10 18 14 A6 6 0 0 1 6 14 Q6 10 12 3 Z"/><path d="M4 4 L20 20"/></g></symbol>
+    <symbol id="ip-hand" viewBox="0 0 24 24"><path d="M8 13 V5.5 a1.5 1.5 0 0 1 3 0 V11 M11 10 V4 a1.5 1.5 0 0 1 3 0 V11 M14 10 V5.5 a1.5 1.5 0 0 1 3 0 V13 M8 12 Q6 10 5 11.5 Q4.5 12.5 6.5 15.5 Q9 20 13 20 Q17 20 17 15 V12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ip-spark" viewBox="0 0 24 24"><path d="M12 3 L13.8 10.2 L21 12 L13.8 13.8 L12 21 L10.2 13.8 L3 12 L10.2 10.2 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="ip-arrow" viewBox="0 0 24 24"><path d="M12 4 V19 M6 13 L12 19 L18 13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ip-bag" viewBox="0 0 24 24"><g fill="none" stroke="#1E1B2E" stroke-width="2" stroke-linejoin="round"><path d="M4.5 8 H19.5 L18.5 21 H5.5 Z"/><path d="M8.5 10 V6.5 Q8.5 3 12 3 Q15.5 3 15.5 6.5 V10" stroke-linecap="round"/></g></symbol>
+    <symbol id="ip-vid" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10 L21 7 V17 L16 14 Z"/></g></symbol>
+  </defs>
+</svg>
+
+<div class="ip" id="ip-root">
+{%- if s.preview_notice -%}
+  <div class="ip-preview" role="note">PREVIEW · Grey boxes are image placeholders at the size to produce. Testimonials and reviews marked EXAMPLE must be replaced by real ones before you publish. Turn this notice off in the section settings.</div>
+{%- endif -%}
+
+<!-- S0 Announcement bar -->
+<div class="ip-bar"><span>{{ s.bar_1 }}</span><i>·</i><span>{{ s.bar_2 }}</span><i>·</i><span>{{ s.bar_3 }}</span></div>
+
+<!-- S1 Header -->
+<header class="ip-top">
+  <a class="ip-logo" href="#ip-root" aria-label="Maison Ivy">maison <span class="iv">&#305;<svg aria-hidden="true"><use href="#ip-o"/></svg></span>vy</a>
+  <button class="ip-cart" type="button" data-ip-open-cart aria-label="Open cart"><svg aria-hidden="true"><use href="#ip-bag"/></svg><span class="n" data-ip-count {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span></button>
+</header>
+
+<main>
+<!-- S2 Hero -->
+<section class="ip-hero">
+  <div class="ip-wrap ip-hero-grid">
+    <div class="ip-hero-text">
+      <div class="ip-h-top">
+        <div class="ip-badges">
+          <span class="ip-badge y"><svg aria-hidden="true"><use href="#ip-spark"/></svg>{{ s.starter_stickers }} stickers included</span>
+          <span class="ip-badge"><svg aria-hidden="true"><use href="#ip-drop"/></svg>No ink</span>
+        </div>
+        <h1>If they can say it,<br><em>it prints it.</em></h1>
+        {%- if show_rating -%}
+        <div class="ip-stars"><span class="s" aria-hidden="true">★★★★★</span><span>{{ s.rating }}/5 · <a href="#ip-reviews">{{ s.review_count }} parent reviews</a></span>{% if s.review_count < 10 %}<span class="ip-ex">EXAMPLE</span>{% endif %}</div>
+        {%- endif -%}
+      </div>
+      <div class="ip-h-bottom">
+        <p class="ip-sub">Your child presses the button, describes an idea out loud… and holds the sticker <b>5 seconds</b> later. Ready to color, ready to stick anywhere.</p>
+        <div class="ip-price-line"><span class="from">From just</span><span class="p">{{ v_starter.price | money_without_trailing_zeros }}</span><span class="free">Free shipping</span></div>
+        <a class="ip-cta pulse" href="#ip-offer" data-ip-hero-cta>{{ cta }} <span class="arr" aria-hidden="true">→</span></a>
+        <div class="ip-reassure">
+          <span><svg aria-hidden="true"><use href="#ip-lock"/></svg>Secure checkout</span>
+          <span><svg aria-hidden="true"><use href="#ip-truck"/></svg>Ships within 24 h</span>
+          <span><svg aria-hidden="true"><use href="#ip-return"/></svg>30 days to change your mind</span>
+        </div>
+      </div>
+    </div>
+    <div class="ip-media">
+      <div class="ip-stage" data-ip-stage>
+        <div class="ip-slide" data-slide="0">
+          {%- if s.hero_video != blank -%}
+            {{ s.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true, image_size: '1600x', preload: 'none' }}
+          {%- else -%}
+            {%- render 'ip-media', image: s.img_01, id: 'IMG-01 / IMG-02', label: 'Hero: 8-second muted loop video (poster = action photo: child takes the sticker out of the printer)', size: '2400 × 1800 px · 4:3 · video MP4 ≤ 1.2 MB', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw', eager: true -%}
+          {%- endif -%}
+        </div>
+        <div class="ip-slide" data-slide="1" hidden>{%- render 'ip-media', image: s.img_03, id: 'IMG-03', label: 'Close-up: the sticker comes out of the slot', size: '2000 × 1500 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
+        <div class="ip-slide" data-slide="2" hidden>{%- render 'ip-media', image: s.img_04, id: 'IMG-04', label: 'Creative Kit flat lay: everything in the box', size: '2400 × 2400 px · 1:1 (shown 4:3)', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
+        <div class="ip-slide" data-slide="3" hidden>{%- render 'ip-media', image: s.img_15, id: 'IMG-15', label: 'Scale: the printer in an adult hand next to a mug', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
+        <div class="ip-slide" data-slide="4" hidden>{%- render 'ip-media', image: s.img_24, id: 'IMG-24', label: 'Unboxing: the gift box opened by the child', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
+        <div class="ip-slide" data-slide="5" hidden>{%- render 'ip-media', image: s.img_25, id: 'IMG-25', label: 'Real customer photo (after the first sales)', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
+      </div>
+      <div class="ip-thumbs" role="group" aria-label="Choose an image">
+        {%- assign thumbs = 'IMG-01,IMG-03,IMG-04,IMG-15,IMG-24,IMG-25' | split: ',' -%}
+        {%- for t in thumbs -%}
+          {%- case forloop.index0 -%}{%- when 0 -%}{%- assign ti = s.img_01 -%}{%- when 1 -%}{%- assign ti = s.img_03 -%}{%- when 2 -%}{%- assign ti = s.img_04 -%}{%- when 3 -%}{%- assign ti = s.img_15 -%}{%- when 4 -%}{%- assign ti = s.img_24 -%}{%- else -%}{%- assign ti = s.img_25 -%}{%- endcase -%}
+          <button type="button" data-thumb="{{ forloop.index0 }}" aria-label="Image {{ forloop.index }}" {% if forloop.first %}aria-current="true"{% endif %}>{% if ti != blank %}{{ ti | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}{% else %}{{ t }}{% endif %}</button>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S3 Numbers -->
+<div class="ip-numbers">
+  <div class="ip-wrap row">
+    <div><div class="big">5<small>s</small></div><p>from idea to sticker</p></div>
+    <div><div class="big">0</div><p>ink cartridges, ever</p></div>
+    <div><div class="big">{{ s.starter_stickers }}</div><p>stickers in the box</p></div>
+  </div>
+</div>
+
+<!-- S4 How it works -->
+<section class="alt" id="ip-how">
+  <div class="ip-wrap">
+    <div class="ip-narrow ip-center"><p class="ip-eyebrow">How it works</p><h2>They say it. It prints. They color it.</h2></div>
+    <div class="ip-steps">
+      <div class="ip-step"><div class="m">{%- render 'ip-media', image: s.img_05, id: 'IMG-05', label: 'Step 1: the child presses the button and talks', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 860px) 340px, 96px' -%}</div>
+        <div><p class="n">1</p><h3>They press and say their idea</h3><p class="quote">“A cat astronaut eating ice cream!”</p></div></div>
+      <div class="ip-step"><div class="m">{%- render 'ip-media', image: s.img_06, id: 'IMG-06', label: 'Step 2: 3-second loop of the sticker printing', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 860px) 340px, 96px' -%}</div>
+        <div><p class="n">2</p><h3>The sticker prints in 5 seconds</h3><p>Bzzz… the printer draws their idea and prints it in black and white, with no ink.</p></div></div>
+      <div class="ip-step"><div class="m">{%- render 'ip-media', image: s.img_07, id: 'IMG-07', label: 'Step 3: the child colors the sticker and sticks it', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 860px) 340px, 96px' -%}</div>
+        <div><p class="n">3</p><h3>They color it and stick it everywhere</h3><p>Notebooks, the fridge, a card for Grandma: their ideas become real things.</p></div></div>
+    </div>
+    <p class="ip-ai ip-narrow">A kid-safe AI turns their sentence into a simple drawing, ready to color. <a href="#ip-faq-voice">Where does their voice go?</a></p>
+  </div>
+</section>
+
+<!-- S5 Ideas gallery -->
+<section id="ip-ideas">
+  <div class="ip-wrap">
+    <div class="ip-narrow ip-center"><p class="ip-eyebrow">What they said, what came out</p><h2>Ideas no sticker book has ever had</h2></div>
+    <div class="ip-ideas">
+      {%- assign ideas = 'A dinosaur eating spaghetti|Grandma as a superhero|A unicorn with a briefcase|A cat astronaut|A pizza that goes skiing|Pirate dad who’s scared of waves' | split: '|' -%}
+      {%- for idea in ideas -%}
+        {%- case forloop.index -%}{%- when 1 -%}{%- assign ii = s.img_08 -%}{%- when 2 -%}{%- assign ii = s.img_09 -%}{%- when 3 -%}{%- assign ii = s.img_10 -%}{%- when 4 -%}{%- assign ii = s.img_11 -%}{%- when 5 -%}{%- assign ii = s.img_12 -%}{%- else -%}{%- assign ii = s.img_13 -%}{%- endcase -%}
+        {%- assign iid = forloop.index | plus: 7 | prepend: 'IMG-' -%}
+        {%- if forloop.index < 3 -%}{%- assign iid = forloop.index | plus: 7 | prepend: 'IMG-0' -%}{%- endif -%}
+        <figure class="ip-idea"><q>{{ idea }}</q><svg class="arrow" aria-hidden="true"><use href="#ip-arrow"/></svg>
+          <div class="st">{%- render 'ip-media', image: ii, id: iid, label: 'Real printed sticker', size: '1200 × 1200 px · 1:1', ratio: '1/1', sizes: '160px' -%}</div></figure>
+      {%- endfor -%}
+    </div>
+    <p class="ip-note">Real stickers printed by the Idea Printer, then colored by kids.</p>
+    <div class="ip-sec-cta"><a class="ip-cta" href="#ip-offer">{{ cta }} <span class="arr" aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+
+<!-- S6 Benefits + exploded view -->
+<section class="alt">
+  <div class="ip-wrap">
+    <div class="ip-narrow ip-center"><p class="ip-eyebrow">Why parents love it</p><h2>Hours of inventing. No ink. No tablet.</h2></div>
+    <div class="ip-ben-grid">
+      <div class="ip-benefits">
+        <div class="ip-benefit"><div class="ic"><svg aria-hidden="true"><use href="#ip-spark"/></svg></div><div><h3>Endless ideas <span>thanks to a drawing made from their own words</span></h3><p>Every idea becomes a one-of-a-kind sticker. They’ll never run out: they invent new ones every day.</p></div></div>
+        <div class="ip-benefit"><div class="ic"><svg aria-hidden="true"><use href="#ip-drop"/></svg></div><div><h3>Zero cartridges <span>thanks to thermal printing</span></h3><p>Only the paper needs refilling: 5 rolls, about 300 stickers, for {{ roll_price | times: 5 | money_without_trailing_zeros }}.</p></div></div>
+        <div class="ip-benefit"><div class="ic"><svg aria-hidden="true"><use href="#ip-hand"/></svg></div><div><h3>Hands-on creativity <span>thanks to voice control</span></h3><p>One button, their voice, some crayons. No tablet to stare at: they talk, they color, they stick.</p></div></div>
+      </div>
+      <div class="ip-ben-media">
+        <div class="ip-exploded">{%- render 'ip-media', image: s.img_14, id: 'IMG-14', label: 'Exploded view: mic, big button, thermal roll, battery', size: '2400 × 2400 px · 1:1', ratio: '1/1', sizes: '(min-width: 960px) 520px, 100vw' -%}</div>
+        <div class="ip-callouts">
+          <div>Built-in mic<small>they talk, it listens</small></div>
+          <div>One big button<small>easy from age {{ s.min_age }}</small></div>
+          <div>Thermal roll<small>57 mm, no ink</small></div>
+          <div>USB-C battery<small>{{ s.battery }} of use</small></div>
+        </div>
+        <div class="ip-pills"><span class="ip-pill">{{ s.dimensions }}</span><span class="ip-pill">{{ s.weight }}</span><span class="ip-pill">200 dpi</span></div>
+        <details class="ip-specs"><summary>Full specifications</summary>
+          <dl><dt>Printing</dt><dd>Thermal, black and white, 200 dpi</dd><dt>Paper</dt><dd>Self-adhesive rolls, 57 × 25 mm</dd><dt>Connectivity</dt><dd>Wi-Fi + Bluetooth (one-time setup)</dd><dt>Battery</dt><dd>1,200 mAh, USB-C charging</dd><dt>Languages</dt><dd>English + 15 languages</dd><dt>Safety</dt><dd>{{ s.certifications }}</dd></dl>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S7 Offer: kits + buy -->
+<section class="ip-offer" id="ip-offer">
+  <div class="ip-wrap">
+    <div class="ip-narrow ip-center"><p class="ip-eyebrow">Your kit</p><h2>Ready for their first idea?</h2></div>
+    <div class="ip-offer-grid">
+      <div style="display:grid;gap:22px;min-width:0">
+        <div class="ip-quiz">
+          <p>Your child would start with…</p>
+          <div class="ip-chips" role="group" aria-label="First idea">
+            <button class="ip-chip" type="button" aria-pressed="false" data-q="“A dinosaur on a skateboard”: printed in 5 seconds.">a dinosaur</button>
+            <button class="ip-chip" type="button" aria-pressed="false" data-q="“A unicorn doing the grocery shopping”: printed in 5 seconds.">a unicorn</button>
+            <button class="ip-chip" type="button" aria-pressed="false" data-q="“A cat flying a rocket”: printed in 5 seconds.">a cat</button>
+          </div>
+          <p class="ip-quiz-out" data-ip-quiz-out aria-live="polite"></p>
+        </div>
+        <fieldset class="ip-packs">
+          <legend>Choose your kit</legend>
+          <label class="ip-pack">
+            <input type="radio" name="ip-kit" value="{{ v_starter.id }}" data-kit="starter">
+            <span class="thumb">{%- render 'ip-media', image: s.img_23a, id: 'IMG-23a', label: 'Starter Kit', size: '800 × 800', ratio: '1/1', sizes: '64px' -%}</span>
+            <span><span class="name">Starter Kit</span><span class="desc">The printer + 3 rolls + 6 crayons</span><span class="unit">≈ {{ s.starter_stickers }} stickers · {{ starter_unit | money }} per sticker</span></span>
+            <span class="pr"><b>{{ v_starter.price | money_without_trailing_zeros }}</b></span>
+          </label>
+          <label class="ip-pack">
+            <span class="tag">Our pick</span>
+            <input type="radio" name="ip-kit" value="{{ v_creative.id }}" data-kit="creative" checked>
+            <span class="thumb">{%- render 'ip-media', image: s.img_23b, id: 'IMG-23b', label: 'Creative Kit', size: '800 × 800', ratio: '1/1', sizes: '64px' -%}</span>
+            <span><span class="name">Creative Kit</span><span class="desc">The printer + 10 rolls + 12 washable markers + sticker binder</span><span class="unit">≈ {{ s.creative_stickers }} stickers · {{ creative_unit | money }} per sticker</span></span>
+            <span class="pr"><b>{{ v_creative.price | money_without_trailing_zeros }}</b><span class="ip-save">−{{ creative_save | money_without_trailing_zeros }}</span></span>
+          </label>
+          <label class="ip-pack">
+            <input type="radio" name="ip-kit" value="{{ v_siblings.id }}" data-kit="siblings">
+            <span class="thumb">{%- render 'ip-media', image: s.img_23c, id: 'IMG-23c', label: 'Siblings Kit', size: '800 × 800', ratio: '1/1', sizes: '64px' -%}</span>
+            <span><span class="name">Siblings Kit</span><span class="desc">2 printers + 10 rolls + 2 crayon sets</span><span class="unit">That’s {{ siblings_unit | money }} per printer</span></span>
+            <span class="pr"><b>{{ v_siblings.price | money_without_trailing_zeros }}</b><span class="ip-save">−{{ siblings_save | money_without_trailing_zeros }}</span></span>
+          </label>
+        </fieldset>
+      </div>
+
+      <div class="ip-buybox" data-ip-buybox>
+        <div class="ip-inbox">
+          <h3>In your box</h3>
+          <ul data-box="starter" hidden>
+            <li><svg aria-hidden="true"><use href="#ip-check"/></svg><span>The Idea Printer</span><em></em></li>
+            <li><svg aria-hidden="true"><use href="#ip-check"/></svg><span>3 rolls (≈ {{ s.starter_stickers }} stickers)</span><em></em></li>
+            <li><svg aria-hidden="true"><use href="#ip-check"/></svg><span>6 crayons</span><em></em></li>
+            <li><svg aria-hidden="true"><use href="#ip-check"/></svg><span>“100 ideas to get started” guide</span><em>free</em></li>
+          </ul>
+          <ul data-box="creative">
+            <li><svg aria-hidden="true"><use href="#ip-check"/></svg><span>The Idea Printer + 3 rolls + 6 crayons</span><em>{{ starter_price | money_without_trailing_zeros }}</em></li>
+            <li><svg aria-hidden="true"><use href="#ip-check"/></svg><span>7 extra rolls (≈ 420 stickers)</span><em>{{ roll_price | times: 7 | money_without_trailing_zeros }}</em></li>
+            <li><svg aria-hidden="true"><use href="#ip-check"/></svg><span>12 washable markers</span><em>{{ markers_price | money_without_trailing_zeros }}</em></li>
+            <li><svg aria-hidden="true"><use href="#ip-check"/></svg><span>Sticker binder</span><em>{{ binder_price | money_without_trailing_zeros }}</em></li>
+            <li><svg aria-hidden="true"><use href="#ip-check"/></svg><span>“100 ideas to get started” guide</span><em>free</em></li>
+          </ul>
+          <ul data-box="siblings" hidden>
+            <li><svg aria-hidden="true"><use href="#ip-check"/></svg><span>2 × Idea Printer + 3 rolls + 6 crayons</span><em>{{ starter_price | times: 2 | money_without_trailing_zeros }}</em></li>
+            <li><svg aria-hidden="true"><use href="#ip-check"/></svg><span>4 extra rolls (≈ 240 stickers)</span><em>{{ roll_price | times: 4 | money_without_trailing_zeros }}</em></li>
+            <li><svg aria-hidden="true"><use href="#ip-check"/></svg><span>2 “100 ideas to get started” guides</span><em>free</em></li>
+          </ul>
+          <p class="note" data-box-note>Values = price of each item sold separately on {{ shop.domain }}.</p>
+        </div>
+        <div class="ip-total" aria-live="polite">
+          <span class="only">Only</span>
+          <span class="big" data-total>{{ v_creative.price | money_without_trailing_zeros }}</span>
+          <s data-was>{{ creative_value | money_without_trailing_zeros }}</s>
+          <span class="ip-save" data-save>You save {{ creative_save | money_without_trailing_zeros }}</span>
+        </div>
+        {%- form 'product', product, class: 'ip-form', data-ip-form: '' -%}
+          <input type="hidden" name="id" value="{{ default_variant.id }}" data-ip-variant>
+          <button class="ip-cta" type="submit" data-ip-add>{{ cta }} <span class="arr" aria-hidden="true">→</span></button>
+          {{ form | payment_button }}
+          <div class="ip-terms">{{ form | payment_terms }}</div>
+          <p class="ip-error" data-ip-error hidden></p>
+        {%- endform -%}
+        <div class="ip-guar">
+          <div><svg aria-hidden="true"><use href="#ip-truck"/></svg><span>{{ s.shipping_text }}</span></div>
+          <div><svg aria-hidden="true"><use href="#ip-shield"/></svg><span>2-year warranty</span></div>
+          <div><svg aria-hidden="true"><use href="#ip-return"/></svg><span>30-day money-back guarantee</span></div>
+          <div><svg aria-hidden="true"><use href="#ip-chat"/></svg><span>Reply within 24 h</span></div>
+        </div>
+        {%- if s.gift_deadline != blank -%}
+        <p class="ip-gift"><svg aria-hidden="true"><use href="#ip-gift"/></svg><span>Gift idea: order by {{ s.gift_deadline }}, delivered before Christmas, in a ready-to-gift box.</span></p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S8 Comparison -->
+<section>
+  <div class="ip-wrap ip-narrow">
+    <div class="ip-center"><p class="ip-eyebrow">Compare</p><h2>Why not just a sticker book?</h2></div>
+    <div class="ip-cmp-wrap">
+      <table class="ip-cmp">
+        <thead><tr><th scope="col"><span style="position:absolute;left:-9999px">Feature</span></th><th scope="col" class="us">Idea Printer</th><th scope="col">Sticker book</th><th scope="col">Tablet</th></tr></thead>
+        <tbody>
+          {%- assign rows = 'One-of-a-kind stickers, invented by your child:yes,no,no|Hands-on creativity:yes,yes,no|No screen to stare at:yes,yes,no|Never runs out of new ideas:yes,no,yes' | split: '|' -%}
+          {%- for r in rows -%}{%- assign parts = r | split: ':' -%}{%- assign vals = parts[1] | split: ',' -%}
+          <tr><td>{{ parts[0] }}</td>{%- for v in vals -%}<td{% if forloop.first %} class="us"{% endif %}>{% if v == 'yes' %}<span class="ip-yes"><svg aria-label="yes"><use href="#ip-check"/></svg></span>{% else %}<span class="ip-no"><svg aria-label="no"><use href="#ip-xx"/></svg></span>{% endif %}</td>{%- endfor -%}</tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- S9 Emotion -->
+<section class="alt">
+  <div class="ip-wrap">
+    <div class="ip-emo-grid">
+      <div class="ip-emo-img">{%- render 'ip-media', image: s.img_16, id: 'IMG-16', label: 'Kitchen, late afternoon: the parent cooks, the child invents at the table', size: '2400 × 1800 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 600px, 100vw' -%}</div>
+      <div style="display:grid;gap:18px;min-width:0">
+        <h2>Calm while you cook. Giggles while they invent.</h2>
+        <div class="ip-moments">
+          <div class="ip-moment"><div class="m">{%- render 'ip-media', image: s.img_17, id: 'IMG-17', label: 'Road trip', size: '1200 × 1200', ratio: '1/1', sizes: '76px' -%}</div><div><h3>Road trips</h3><p>One roll, some crayons: the miles fly by in ideas.</p></div></div>
+          <div class="ip-moment"><div class="m">{%- render 'ip-media', image: s.img_18, id: 'IMG-18', label: 'Rainy afternoon', size: '1200 × 1200', ratio: '1/1', sizes: '76px' -%}</div><div><h3>Rainy afternoons</h3><p>They invent, and every friend lines up for a sticker.</p></div></div>
+          <div class="ip-moment"><div class="m">{%- render 'ip-media', image: s.img_19, id: 'IMG-19', label: 'Card for Grandma', size: '1200 × 1200', ratio: '1/1', sizes: '76px' -%}</div><div><h3>Grandma’s birthday card</h3><p>Grandma as a superhero, colored with love.</p></div></div>
+        </div>
+        <a class="ip-cta" href="#ip-offer">{{ cta }} <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- if s.show_examples -%}
+<!-- S10 Testimonials -->
+<section>
+  <div class="ip-wrap">
+    <div class="ip-narrow ip-center"><p class="ip-eyebrow">At home</p><h2>What parents tell us</h2></div>
+    <div class="ip-testis">
+      <article class="ip-testi">{%- render 'ip-media', image: s.img_20, id: 'IMG-20', label: 'Real customer photo or 15-30 s video', size: '1920 × 1080 px · 16:9', ratio: '16/9', sizes: '(min-width: 860px) 360px, 100vw' -%}<div class="body"><span class="ip-ex">EXAMPLE LAYOUT</span><blockquote>“She printed the whole family as superheroes. The fridge is full.”</blockquote><p class="who"><b>Sophie M.</b>, mom of Ines (7)</p></div></article>
+      <article class="ip-testi">{%- render 'ip-media', image: s.img_21, id: 'IMG-21', label: 'Real customer photo or 15-30 s video', size: '1920 × 1080 px · 16:9', ratio: '16/9', sizes: '(min-width: 860px) 360px, 100vw' -%}<div class="body"><span class="ip-ex">EXAMPLE LAYOUT</span><blockquote>“He invents animals that don’t exist, and tells me the story of every sticker.”</blockquote><p class="who"><b>Julien B.</b>, dad of Noah (5)</p></div></article>
+      <article class="ip-testi">{%- render 'ip-media', image: s.img_22, id: 'IMG-22', label: 'Real customer photo or 15-30 s video', size: '1920 × 1080 px · 16:9', ratio: '16/9', sizes: '(min-width: 860px) 360px, 100vw' -%}<div class="body"><span class="ip-ex">EXAMPLE LAYOUT</span><blockquote>“Four hours on the road, and the tablet stayed in the bag.”</blockquote><p class="who"><b>Camille R.</b>, mom of Leo (6)</p></div></article>
+    </div>
+    <div class="ip-sec-cta"><a class="ip-cta" href="#ip-offer">{{ cta }} <span class="arr" aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+
+<!-- S11 Reviews -->
+<section class="alt" id="ip-reviews">
+  <div class="ip-wrap">
+    <div class="ip-narrow ip-center"><p class="ip-eyebrow">Verified reviews</p><h2>Parents are talking</h2></div>
+    <div class="ip-rev-head">
+      <div class="ip-score"><span class="big">{{ s.rating }}</span><div><span class="s" aria-label="{{ s.rating }} out of 5">★★★★★</span><small>{{ s.review_count }} parent reviews</small></div></div>
+      <div class="ip-dist" aria-label="Rating breakdown">
+        <div><span>5 ★</span><span class="tr"><i style="width:82%"></i></span><span>82%</span></div>
+        <div><span>4 ★</span><span class="tr"><i style="width:13%"></i></span><span>13%</span></div>
+        <div><span>3 ★</span><span class="tr"><i style="width:3%"></i></span><span>3%</span></div>
+        <div><span>2 ★</span><span class="tr"><i style="width:1%"></i></span><span>1%</span></div>
+        <div><span>1 ★</span><span class="tr"><i style="width:1%"></i></span><span>1%</span></div>
+      </div>
+    </div>
+    <div class="ip-filters" role="group" aria-label="Filter reviews">
+      <button class="ip-chip" type="button" aria-pressed="true" data-f="all">All</button>
+      <button class="ip-chip" type="button" aria-pressed="false" data-f="easy">Easy to use</button>
+      <button class="ip-chip" type="button" aria-pressed="false" data-f="drawings">Drawing quality</button>
+      <button class="ip-chip" type="button" aria-pressed="false" data-f="gift">Gift idea</button>
+      <button class="ip-chip" type="button" aria-pressed="false" data-f="shipping">Shipping</button>
+    </div>
+    <div class="ip-reviews" data-ip-reviews>
+      <article class="ip-review" data-t="easy"><div class="top"><span class="s" aria-label="5 out of 5">★★★★★</span><span class="ver">✓ Verified purchase</span></div><p>My 5-year-old has used it on his own since day one. He presses, he talks, that’s it.</p><div class="top"><span class="who">Aurélie D.</span><span class="tagl">Easy to use</span></div><span class="ip-ex">EXAMPLE</span></article>
+      <article class="ip-review" data-t="drawings"><div class="top"><span class="s" aria-label="4 out of 5">★★★★<span class="off">★</span></span><span class="ver">✓ Verified purchase</span></div><p>The drawings are simple and clean, perfect for coloring. Only downside: we go through rolls faster than expected!</p><div class="top"><span class="who">Thomas L.</span><span class="tagl">Drawing quality</span></div><span class="ip-ex">EXAMPLE</span></article>
+      <article class="ip-review" data-t="gift"><div class="top"><span class="s" aria-label="5 out of 5">★★★★★</span><span class="ver">✓ Verified purchase</span></div><p>A gift for my niece’s 6th birthday: it was the hit of the party, every kid wanted a sticker.</p><div class="top"><span class="who">Nadia K.</span><span class="tagl">Gift idea</span></div><span class="ip-ex">EXAMPLE</span></article>
+      <article class="ip-review" data-t="shipping"><div class="top"><span class="s" aria-label="5 out of 5">★★★★★</span><span class="ver">✓ Verified purchase</span></div><p>Arrived in 3 days, well packed, and the box is pretty enough to give as is.</p><div class="top"><span class="who">Marc P.</span><span class="tagl">Shipping</span></div><span class="ip-ex">EXAMPLE</span></article>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<!-- S12 Promise -->
+<section class="ip-promise">
+  <div class="ip-wrap ip-narrow">
+    <div class="box">
+      <div class="ip-seal" aria-hidden="true"><b>30</b><span>days<br>to try it</span></div>
+      <div>
+        <h2>Try it for 30 days.</h2>
+        <p>If it doesn’t make your child smile, send it back: we’ll refund you, no questions asked.</p>
+        <ul><li>2-year warranty</li><li>Easy, tracked returns</li><li>A real person replies within 24 h</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S13 FAQ -->
+<section>
+  <div class="ip-wrap ip-narrow">
+    <div class="ip-center"><p class="ip-eyebrow">Questions</p><h2>Your questions, answered</h2></div>
+    <div class="ip-faq">
+      <details><summary>When will I get it?</summary><p class="a">Your order ships within 24 business hours. {{ s.shipping_text }}. You’ll get tracking by email.</p></details>
+      <details><summary>How do returns work?</summary><p class="a">You have 30 days to change your mind. Email us, we send you a return label, and you’re refunded within 5 days of receipt.</p></details>
+      <details id="ip-faq-voice"><summary>Is it safe for my child? Where does their voice go?</summary><p class="a">The Idea Printer meets {{ s.certifications }} safety standards (certificates available on request). Their voice is only used to create the drawing: {{ s.voice_answer }}</p></details>
+      <details><summary>Do I need a phone or Wi-Fi?</summary><p class="a">{{ s.wifi_answer }}</p></details>
+      <details><summary>What age is it for?</summary><p class="a">From age {{ s.min_age }}: one button, no reading needed. Older kids (up to 10-11) love inventing wilder and wilder ideas.</p></details>
+      <details><summary>How many stickers per roll, and where do I get refills?</summary><p class="a">About {{ s.stickers_per_roll }} stickers per roll. Refills are on {{ shop.domain }}: 5 rolls (about 300 stickers) for {{ roll_price | times: 5 | money_without_trailing_zeros }}.</p></details>
+      <details><summary>Does it understand my child well?</summary><p class="a">Yes. It understands English and more than 15 other languages. Short kid sentences work great: “a cat astronaut” is enough.</p></details>
+      <details><summary>What if a drawing isn’t right for a child?</summary><p class="a">{{ s.filter_answer }} If a drawing looks odd, email us and we’ll look into it with you.</p></details>
+      <details><summary>Is it a good Christmas gift?</summary><p class="a">Yes: it arrives in a ready-to-gift box.{% if s.gift_deadline != blank %} For Christmas, order by {{ s.gift_deadline }}.{% endif %}</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- S14 Last call -->
+<section class="alt">
+  <div class="ip-wrap ip-narrow ip-last">
+    <h2>Still on the fence?</h2>
+    <p style="color:var(--muted)">Watch the 30-second demo, or ask us anything: a real person replies within 24 hours.</p>
+    <div class="btns">
+      <a class="ip-cta" href="#ip-offer">{{ cta }} <span class="arr" aria-hidden="true">→</span></a>
+      {%- if s.demo_video != blank -%}
+        <details><summary class="ip-ghost"><svg aria-hidden="true" style="width:20px;height:20px"><use href="#ip-vid"/></svg>Watch the demo (30 s)</summary>{{ s.demo_video | video_tag: controls: true, playsinline: true, preload: 'none', style: 'width:100%;margin-top:12px;border-radius:16px' }}</details>
+      {%- else -%}
+        <a class="ip-ghost" href="#ip-how"><svg aria-hidden="true" style="width:20px;height:20px"><use href="#ip-vid"/></svg>Watch the demo (30 s)</a>
+      {%- endif -%}
+    </div>
+    <p class="ip-contact">Email us: <b>{{ s.contact_email }}</b></p>
+  </div>
+</section>
+</main>
+
+<!-- S15 Footer -->
+<footer class="ip-footer">
+  <div class="ip-wrap">
+    <span class="ip-logo" aria-label="Maison Ivy">maison <span class="iv">&#305;<svg aria-hidden="true"><use href="#ip-o"/></svg></span>vy</span>
+    <p>If they can say it, it prints it.</p>
+    <nav aria-label="Legal">
+      {%- for policy in shop.policies -%}<a href="{{ policy.url }}">{{ policy.title }}</a>{%- endfor -%}
+      <a href="mailto:{{ s.contact_email }}">Contact</a>
+    </nav>
+    <div class="ip-pay" aria-label="Payment methods">{%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag }}{%- endfor -%}</div>
+    <p>© {{ 'now' | date: '%Y' }} {{ shop.name }} · {{ shop.domain }}</p>
+  </div>
+</footer>
+
+<!-- S16 Sticky bar -->
+<div class="ip-sticky" data-ip-sticky>
+  <div class="in">
+    <span class="thumb">{%- render 'ip-media', image: s.img_23b, id: 'IMG-23', label: 'Kit', size: '', ratio: '1/1', sizes: '48px' -%}</span>
+    <span class="t"><b data-sticky-price>{{ v_creative.price | money_without_trailing_zeros }}</b><span data-sticky-name>Creative Kit</span></span>
+    <button class="ip-cta" type="button" data-ip-sticky-add>{{ cta }}</button>
+  </div>
+</div>
+
+<!-- S17 Cart drawer -->
+<div class="ip-scrim" data-ip-scrim></div>
+<aside class="ip-drawer" data-ip-drawer role="dialog" aria-modal="true" aria-label="Cart">
+  <div class="hd"><b data-ip-drawer-title>✓ Added to cart</b><button class="ip-x" type="button" data-ip-close aria-label="Close cart">×</button></div>
+  <div class="bd">
+    <div data-ip-lines></div>
+    {%- if s.refill_product != blank -%}
+    <div class="ip-upsell" data-ip-upsell>
+      <p><b>Add 5 rolls?</b>About 300 more stickers, for road trips.</p>
+      <button type="button" data-ip-upsell-add data-variant="{{ s.refill_product.selected_or_first_available_variant.id }}">+ {{ s.refill_product.price | money_without_trailing_zeros }}</button>
+    </div>
+    {%- endif -%}
+  </div>
+  <div class="ft">
+    <div class="sum"><span>Total</span><span data-ip-cart-total>{{ cart.total_price | money }}</span></div>
+    <p class="ship">✓ Free shipping · ships within 24 h</p>
+    <a class="ip-cta" href="/checkout">Complete my order <span class="arr" aria-hidden="true">→</span></a>
+  </div>
+</aside>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('ip-root');
+  if (!root) return;
+  var $ = function (s) { return root.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
+  var KITS = {
+    starter:  { name: 'Starter Kit',  price: {{ v_starter.price | money_without_trailing_zeros | json }},  was: '', save: '' },
+    creative: { name: 'Creative Kit', price: {{ v_creative.price | money_without_trailing_zeros | json }}, was: {{ creative_value | money_without_trailing_zeros | json }}, save: {{ creative_save | money_without_trailing_zeros | prepend: 'You save ' | json }} },
+    siblings: { name: 'Siblings Kit', price: {{ v_siblings.price | money_without_trailing_zeros | json }}, was: {{ siblings_value | money_without_trailing_zeros | json }}, save: {{ siblings_save | money_without_trailing_zeros | prepend: 'You save ' | json }} }
+  };
+  var moneyFormat = {{ shop.money_format | json }};
+  function fmt(cents) {
+    var v = (cents / 100).toFixed(2);
+    var o = '{' + '{';
+    var out = moneyFormat.split(o + 'amount}}').join(v).split(o + ' amount }}').join(v);
+    return out.indexOf(o) === -1 ? out : '$' + v;
+  }
+  var variantInput = $('[data-ip-variant]');
+
+  // S7 kit selection
+  function currentKit() { var c = $('input[name="ip-kit"]:checked'); return c ? c : null; }
+  function renderKit() {
+    var c = currentKit(); if (!c) return;
+    var k = KITS[c.dataset.kit];
+    variantInput.value = c.value;
+    $$('[data-box]').forEach(function (u) { u.hidden = u.dataset.box !== c.dataset.kit; });
+    $('[data-box-note]').hidden = c.dataset.kit === 'starter';
+    $('[data-total]').textContent = k.price;
+    $('[data-was]').textContent = k.was; $('[data-was]').hidden = !k.was;
+    $('[data-save]').textContent = k.save; $('[data-save]').hidden = !k.save;
+    $('[data-sticky-price]').textContent = k.price;
+    $('[data-sticky-name]').textContent = k.name;
+  }
+  $$('input[name="ip-kit"]').forEach(function (r) { r.addEventListener('change', renderKit); });
+  renderKit();
+
+  // mini-question
+  $$('.ip-quiz .ip-chip').forEach(function (b) {
+    b.addEventListener('click', function () {
+      $$('.ip-quiz .ip-chip').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+      b.setAttribute('aria-pressed', 'true');
+      $('[data-ip-quiz-out]').textContent = 'Great pick! ' + b.dataset.q;
+    });
+  });
+
+  // S2 gallery
+  $$('[data-thumb]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      $$('[data-thumb]').forEach(function (x) { x.setAttribute('aria-current', 'false'); });
+      b.setAttribute('aria-current', 'true');
+      $$('[data-slide]').forEach(function (sl) { sl.hidden = sl.dataset.slide !== b.dataset.thumb; });
+    });
+  });
+
+  // S11 review filters
+  $$('.ip-filters .ip-chip').forEach(function (b) {
+    b.addEventListener('click', function () {
+      $$('.ip-filters .ip-chip').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+      b.setAttribute('aria-pressed', 'true');
+      $$('[data-ip-reviews] .ip-review').forEach(function (r) { r.hidden = !(b.dataset.f === 'all' || r.dataset.t === b.dataset.f); });
+    });
+  });
+
+  // S16 sticky bar: after the hero button, hidden while the buy box is on screen
+  var sticky = $('[data-ip-sticky]'), heroOut = false, buyIn = false;
+  function upd() { sticky.classList.toggle('on', heroOut && !buyIn); }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) { heroOut = !e[0].isIntersecting && e[0].boundingClientRect.top < 0; upd(); }).observe($('[data-ip-hero-cta]'));
+    new IntersectionObserver(function (e) { buyIn = e[0].isIntersecting; upd(); }, { threshold: .25 }).observe($('[data-ip-buybox]'));
+  }
+
+  // S17 cart
+  var drawer = $('[data-ip-drawer]'), scrim = $('[data-ip-scrim]');
+  function openCart() { drawer.classList.add('on'); scrim.classList.add('on'); $('[data-ip-close]').focus(); }
+  function closeCart() { drawer.classList.remove('on'); scrim.classList.remove('on'); }
+  function drawCart(cart) {
+    $('[data-ip-lines]').innerHTML = cart.items.map(function (i) {
+      var t = document.createElement('div'); t.textContent = i.product_title;
+      var vt = document.createElement('div'); vt.textContent = i.variant_title && i.variant_title !== 'Default Title' ? i.variant_title : '';
+      return '<div class="ip-line"><span><b>' + t.innerHTML + '</b><small>' + vt.innerHTML + (i.quantity > 1 ? ' × ' + i.quantity : '') + '</small></span><span><b>' + fmt(i.final_line_price) + '</b></span></div>';
+    }).join('') || '<p>Your cart is empty.</p>';
+    $('[data-ip-cart-total]').textContent = fmt(cart.total_price);
+    var n = $('[data-ip-count]'); n.textContent = cart.item_count; n.hidden = cart.item_count === 0;
+    var up = $('[data-ip-upsell]');
+    if (up) { var vid = Number($('[data-ip-upsell-add]').dataset.variant); up.hidden = cart.items.some(function (i) { return i.variant_id === vid; }); }
+  }
+  function refresh() { return fetch('/cart.js').then(function (r) { return r.json(); }).then(drawCart); }
+  function add(id, btn) {
+    var err = $('[data-ip-error]'); err.hidden = true;
+    if (btn) btn.disabled = true;
+    return fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ items: [{ id: Number(id), quantity: 1 }] }) })
+      .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.description || 'This kit could not be added.'); return j; }); })
+      .then(function () { try { navigator.vibrate && navigator.vibrate(400); } catch (e) {} return refresh(); })
+      .then(openCart)
+      .catch(function (e) { err.textContent = e.message + ' Please try again.'; err.hidden = false; })
+      .then(function () { if (btn) btn.disabled = false; });
+  }
+  $('[data-ip-form]').addEventListener('submit', function (e) { e.preventDefault(); add(variantInput.value, $('[data-ip-add]')); });
+  $('[data-ip-sticky-add]').addEventListener('click', function () { add(variantInput.value, this); });
+  var upBtn = $('[data-ip-upsell-add]');
+  if (upBtn) upBtn.addEventListener('click', function () { add(this.dataset.variant, this); });
+  $('[data-ip-open-cart]').addEventListener('click', function () { refresh().then(openCart); });
+  $('[data-ip-close]').addEventListener('click', closeCart);
+  scrim.addEventListener('click', closeCart);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeCart(); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Idea Printer landing",
+  "class": "ip-section",
+  "settings": [
+    { "type": "header", "content": "Preview" },
+    { "type": "checkbox", "id": "preview_notice", "label": "Show the preview notice at the top", "default": true },
+    { "type": "checkbox", "id": "show_examples", "label": "Show example testimonials and reviews (turn off before publishing unless replaced)", "default": true },
+    { "type": "header", "content": "Text and values to confirm" },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Get my Idea Printer" },
+    { "type": "text", "id": "bar_1", "label": "Announcement 1", "default": "Free shipping" },
+    { "type": "text", "id": "bar_2", "label": "Announcement 2", "default": "2-year warranty" },
+    { "type": "text", "id": "bar_3", "label": "Announcement 3", "default": "30-day returns" },
+    { "type": "text", "id": "rating", "label": "Average rating", "default": "4.7" },
+    { "type": "number", "id": "review_count", "label": "Number of real reviews (rating shows from 10)", "default": 0 },
+    { "type": "number", "id": "starter_stickers", "label": "Stickers in the Starter Kit", "default": 180 },
+    { "type": "number", "id": "creative_stickers", "label": "Stickers in the Creative Kit", "default": 600 },
+    { "type": "number", "id": "stickers_per_roll", "label": "Stickers per roll", "default": 60 },
+    { "type": "text", "id": "min_age", "label": "Minimum age", "default": "4" },
+    { "type": "text", "id": "battery", "label": "Battery life", "default": "4 h" },
+    { "type": "text", "id": "dimensions", "label": "Dimensions", "default": "3.7 × 3.2 in" },
+    { "type": "text", "id": "weight", "label": "Weight", "default": "9.9 oz" },
+    { "type": "text", "id": "certifications", "label": "Safety standards", "default": "CE and EN 71" },
+    { "type": "text", "id": "shipping_text", "label": "Shipping promise", "default": "Free shipping in 3-5 business days" },
+    { "type": "text", "id": "gift_deadline", "label": "Christmas order deadline (leave empty to hide)", "default": "December 18" },
+    { "type": "textarea", "id": "voice_answer", "label": "FAQ: what happens to the voice", "default": "it is turned into text and then deleted, never stored or used for advertising." },
+    { "type": "textarea", "id": "wifi_answer", "label": "FAQ: phone and Wi-Fi", "default": "Wi-Fi is used to create the drawings. Setup happens once in the app and takes about 3 minutes; after that, your child only needs the button." },
+    { "type": "textarea", "id": "filter_answer", "label": "FAQ: content filters", "default": "Requests that aren’t suitable for children are filtered and replaced by a neutral drawing." },
+    { "type": "text", "id": "contact_email", "label": "Contact email", "default": "hello@maison-ivy.com" },
+    { "type": "header", "content": "Products sold separately (price anchoring and cart upsell)" },
+    { "type": "product", "id": "refill_product", "label": "Refill, 5 rolls" },
+    { "type": "product", "id": "markers_product", "label": "Washable markers, set of 12" },
+    { "type": "product", "id": "binder_product", "label": "Sticker binder" },
+    { "type": "header", "content": "Hero (S2)" },
+    { "type": "video", "id": "hero_video", "label": "IMG-02 Hero loop video (8 s, muted, 4:3)" },
+    { "type": "image_picker", "id": "img_01", "label": "IMG-01 Action photo / video poster (2400 × 1800)" },
+    { "type": "image_picker", "id": "img_03", "label": "IMG-03 Sticker close-up (2000 × 1500)" },
+    { "type": "image_picker", "id": "img_04", "label": "IMG-04 Creative Kit flat lay (2400 × 2400)" },
+    { "type": "image_picker", "id": "img_15", "label": "IMG-15 Scale in hand (1600 × 1200)" },
+    { "type": "image_picker", "id": "img_24", "label": "IMG-24 Unboxing (1600 × 1200)" },
+    { "type": "image_picker", "id": "img_25", "label": "IMG-25 Customer photo (1600 × 1200)" },
+    { "type": "header", "content": "How it works (S4)" },
+    { "type": "image_picker", "id": "img_05", "label": "IMG-05 Step 1 (1600 × 1200)" },
+    { "type": "image_picker", "id": "img_06", "label": "IMG-06 Step 2 (1600 × 1200)" },
+    { "type": "image_picker", "id": "img_07", "label": "IMG-07 Step 3 (1600 × 1200)" },
+    { "type": "header", "content": "Ideas gallery (S5): real printed stickers" },
+    { "type": "image_picker", "id": "img_08", "label": "IMG-08 Dinosaur eating spaghetti (1200 × 1200)" },
+    { "type": "image_picker", "id": "img_09", "label": "IMG-09 Grandma as a superhero (1200 × 1200)" },
+    { "type": "image_picker", "id": "img_10", "label": "IMG-10 Unicorn with a briefcase (1200 × 1200)" },
+    { "type": "image_picker", "id": "img_11", "label": "IMG-11 Cat astronaut (1200 × 1200)" },
+    { "type": "image_picker", "id": "img_12", "label": "IMG-12 Pizza that goes skiing (1200 × 1200)" },
+    { "type": "image_picker", "id": "img_13", "label": "IMG-13 Pirate dad scared of waves (1200 × 1200)" },
+    { "type": "header", "content": "Benefits (S6) and kits (S7)" },
+    { "type": "image_picker", "id": "img_14", "label": "IMG-14 Exploded view (2400 × 2400)" },
+    { "type": "image_picker", "id": "img_23a", "label": "IMG-23a Starter Kit thumbnail (800 × 800)" },
+    { "type": "image_picker", "id": "img_23b", "label": "IMG-23b Creative Kit thumbnail (800 × 800)" },
+    { "type": "image_picker", "id": "img_23c", "label": "IMG-23c Siblings Kit thumbnail (800 × 800)" },
+    { "type": "header", "content": "Emotion (S9) and testimonials (S10)" },
+    { "type": "image_picker", "id": "img_16", "label": "IMG-16 Kitchen scene (2400 × 1800)" },
+    { "type": "image_picker", "id": "img_17", "label": "IMG-17 Road trip (1200 × 1200)" },
+    { "type": "image_picker", "id": "img_18", "label": "IMG-18 Rainy afternoon (1200 × 1200)" },
+    { "type": "image_picker", "id": "img_19", "label": "IMG-19 Card for Grandma (1200 × 1200)" },
+    { "type": "image_picker", "id": "img_20", "label": "IMG-20 Testimonial 1 (1920 × 1080)" },
+    { "type": "image_picker", "id": "img_21", "label": "IMG-21 Testimonial 2 (1920 × 1080)" },
+    { "type": "image_picker", "id": "img_22", "label": "IMG-22 Testimonial 3 (1920 × 1080)" },
+    { "type": "header", "content": "Last call (S14)" },
+    { "type": "video", "id": "demo_video", "label": "30-second demo video" }
+  ],
+  "presets": [{ "name": "Idea Printer landing" }]
+}
+{% endschema %}
