@@ -3,6 +3,64 @@
   Images: every visual is an image setting of this section; empty = placeholder at the size to produce.
 {%- endcomment -%}
 {%- liquid
+  for block in section.blocks
+    case block.settings.slot
+      when 'img_01'
+        assign img_01 = block.settings.image
+      when 'img_03'
+        assign img_03 = block.settings.image
+      when 'img_04'
+        assign img_04 = block.settings.image
+      when 'img_15'
+        assign img_15 = block.settings.image
+      when 'img_24'
+        assign img_24 = block.settings.image
+      when 'img_25'
+        assign img_25 = block.settings.image
+      when 'img_05'
+        assign img_05 = block.settings.image
+      when 'img_06'
+        assign img_06 = block.settings.image
+      when 'img_07'
+        assign img_07 = block.settings.image
+      when 'img_08'
+        assign img_08 = block.settings.image
+      when 'img_09'
+        assign img_09 = block.settings.image
+      when 'img_10'
+        assign img_10 = block.settings.image
+      when 'img_11'
+        assign img_11 = block.settings.image
+      when 'img_12'
+        assign img_12 = block.settings.image
+      when 'img_13'
+        assign img_13 = block.settings.image
+      when 'img_14'
+        assign img_14 = block.settings.image
+      when 'img_23a'
+        assign img_23a = block.settings.image
+      when 'img_23b'
+        assign img_23b = block.settings.image
+      when 'img_23c'
+        assign img_23c = block.settings.image
+      when 'img_16'
+        assign img_16 = block.settings.image
+      when 'img_17'
+        assign img_17 = block.settings.image
+      when 'img_18'
+        assign img_18 = block.settings.image
+      when 'img_19'
+        assign img_19 = block.settings.image
+      when 'img_20'
+        assign img_20 = block.settings.image
+      when 'img_21'
+        assign img_21 = block.settings.image
+      when 'img_22'
+        assign img_22 = block.settings.image
+    endcase
+  endfor
+-%}
+{%- liquid
   assign s = section.settings
   assign v_starter = product.variants[0]
   assign v_creative = product.variants[1]
@@ -414,19 +472,19 @@
           {%- if s.hero_video != blank -%}
             {{ s.hero_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true, image_size: '1600x', preload: 'none' }}
           {%- else -%}
-            {%- render 'ip-media', image: s.img_01, id: 'IMG-01 / IMG-02', label: 'Hero: 8-second muted loop video (poster = action photo: child takes the sticker out of the printer)', size: '2400 × 1800 px · 4:3 · video MP4 ≤ 1.2 MB', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw', eager: true -%}
+            {%- render 'ip-media', image: img_01, id: 'IMG-01 / IMG-02', label: 'Hero: 8-second muted loop video (poster = action photo: child takes the sticker out of the printer)', size: '2400 × 1800 px · 4:3 · video MP4 ≤ 1.2 MB', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw', eager: true -%}
           {%- endif -%}
         </div>
-        <div class="ip-slide" data-slide="1" hidden>{%- render 'ip-media', image: s.img_03, id: 'IMG-03', label: 'Close-up: the sticker comes out of the slot', size: '2000 × 1500 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
-        <div class="ip-slide" data-slide="2" hidden>{%- render 'ip-media', image: s.img_04, id: 'IMG-04', label: 'Creative Kit flat lay: everything in the box', size: '2400 × 2400 px · 1:1 (shown 4:3)', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
-        <div class="ip-slide" data-slide="3" hidden>{%- render 'ip-media', image: s.img_15, id: 'IMG-15', label: 'Scale: the printer in an adult hand next to a mug', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
-        <div class="ip-slide" data-slide="4" hidden>{%- render 'ip-media', image: s.img_24, id: 'IMG-24', label: 'Unboxing: the gift box opened by the child', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
-        <div class="ip-slide" data-slide="5" hidden>{%- render 'ip-media', image: s.img_25, id: 'IMG-25', label: 'Real customer photo (after the first sales)', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
+        <div class="ip-slide" data-slide="1" hidden>{%- render 'ip-media', image: img_03, id: 'IMG-03', label: 'Close-up: the sticker comes out of the slot', size: '2000 × 1500 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
+        <div class="ip-slide" data-slide="2" hidden>{%- render 'ip-media', image: img_04, id: 'IMG-04', label: 'Creative Kit flat lay: everything in the box', size: '2400 × 2400 px · 1:1 (shown 4:3)', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
+        <div class="ip-slide" data-slide="3" hidden>{%- render 'ip-media', image: img_15, id: 'IMG-15', label: 'Scale: the printer in an adult hand next to a mug', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
+        <div class="ip-slide" data-slide="4" hidden>{%- render 'ip-media', image: img_24, id: 'IMG-24', label: 'Unboxing: the gift box opened by the child', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
+        <div class="ip-slide" data-slide="5" hidden>{%- render 'ip-media', image: img_25, id: 'IMG-25', label: 'Real customer photo (after the first sales)', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 560px, 100vw' -%}</div>
       </div>
       <div class="ip-thumbs" role="group" aria-label="Choose an image">
         {%- assign thumbs = 'IMG-01,IMG-03,IMG-04,IMG-15,IMG-24,IMG-25' | split: ',' -%}
         {%- for t in thumbs -%}
-          {%- case forloop.index0 -%}{%- when 0 -%}{%- assign ti = s.img_01 -%}{%- when 1 -%}{%- assign ti = s.img_03 -%}{%- when 2 -%}{%- assign ti = s.img_04 -%}{%- when 3 -%}{%- assign ti = s.img_15 -%}{%- when 4 -%}{%- assign ti = s.img_24 -%}{%- else -%}{%- assign ti = s.img_25 -%}{%- endcase -%}
+          {%- case forloop.index0 -%}{%- when 0 -%}{%- assign ti = img_01 -%}{%- when 1 -%}{%- assign ti = img_03 -%}{%- when 2 -%}{%- assign ti = img_04 -%}{%- when 3 -%}{%- assign ti = img_15 -%}{%- when 4 -%}{%- assign ti = img_24 -%}{%- else -%}{%- assign ti = img_25 -%}{%- endcase -%}
           <button type="button" data-thumb="{{ forloop.index0 }}" aria-label="Image {{ forloop.index }}" {% if forloop.first %}aria-current="true"{% endif %}>{% if ti != blank %}{{ ti | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}{% else %}{{ t }}{% endif %}</button>
         {%- endfor -%}
       </div>
@@ -448,11 +506,11 @@
   <div class="ip-wrap">
     <div class="ip-narrow ip-center"><p class="ip-eyebrow">How it works</p><h2>They say it. It prints. They color it.</h2></div>
     <div class="ip-steps">
-      <div class="ip-step"><div class="m">{%- render 'ip-media', image: s.img_05, id: 'IMG-05', label: 'Step 1: the child presses the button and talks', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 860px) 340px, 96px' -%}</div>
+      <div class="ip-step"><div class="m">{%- render 'ip-media', image: img_05, id: 'IMG-05', label: 'Step 1: the child presses the button and talks', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 860px) 340px, 96px' -%}</div>
         <div><p class="n">1</p><h3>They press and say their idea</h3><p class="quote">“A cat astronaut eating ice cream!”</p></div></div>
-      <div class="ip-step"><div class="m">{%- render 'ip-media', image: s.img_06, id: 'IMG-06', label: 'Step 2: 3-second loop of the sticker printing', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 860px) 340px, 96px' -%}</div>
+      <div class="ip-step"><div class="m">{%- render 'ip-media', image: img_06, id: 'IMG-06', label: 'Step 2: 3-second loop of the sticker printing', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 860px) 340px, 96px' -%}</div>
         <div><p class="n">2</p><h3>The sticker prints in 5 seconds</h3><p>Bzzz… the printer draws their idea and prints it in black and white, with no ink.</p></div></div>
-      <div class="ip-step"><div class="m">{%- render 'ip-media', image: s.img_07, id: 'IMG-07', label: 'Step 3: the child colors the sticker and sticks it', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 860px) 340px, 96px' -%}</div>
+      <div class="ip-step"><div class="m">{%- render 'ip-media', image: img_07, id: 'IMG-07', label: 'Step 3: the child colors the sticker and sticks it', size: '1600 × 1200 px · 4:3', ratio: '4/3', sizes: '(min-width: 860px) 340px, 96px' -%}</div>
         <div><p class="n">3</p><h3>They color it and stick it everywhere</h3><p>Notebooks, the fridge, a card for Grandma: their ideas become real things.</p></div></div>
     </div>
     <p class="ip-ai ip-narrow">A kid-safe AI turns their sentence into a simple drawing, ready to color. <a href="#ip-faq-voice">Where does their voice go?</a></p>
@@ -466,7 +524,7 @@
     <div class="ip-ideas">
       {%- assign ideas = 'A dinosaur eating spaghetti|Grandma as a superhero|A unicorn with a briefcase|A cat astronaut|A pizza that goes skiing|Pirate dad who’s scared of waves' | split: '|' -%}
       {%- for idea in ideas -%}
-        {%- case forloop.index -%}{%- when 1 -%}{%- assign ii = s.img_08 -%}{%- when 2 -%}{%- assign ii = s.img_09 -%}{%- when 3 -%}{%- assign ii = s.img_10 -%}{%- when 4 -%}{%- assign ii = s.img_11 -%}{%- when 5 -%}{%- assign ii = s.img_12 -%}{%- else -%}{%- assign ii = s.img_13 -%}{%- endcase -%}
+        {%- case forloop.index -%}{%- when 1 -%}{%- assign ii = img_08 -%}{%- when 2 -%}{%- assign ii = img_09 -%}{%- when 3 -%}{%- assign ii = img_10 -%}{%- when 4 -%}{%- assign ii = img_11 -%}{%- when 5 -%}{%- assign ii = img_12 -%}{%- else -%}{%- assign ii = img_13 -%}{%- endcase -%}
         {%- assign iid = forloop.index | plus: 7 | prepend: 'IMG-' -%}
         {%- if forloop.index < 3 -%}{%- assign iid = forloop.index | plus: 7 | prepend: 'IMG-0' -%}{%- endif -%}
         <figure class="ip-idea"><q>{{ idea }}</q><svg class="arrow" aria-hidden="true"><use href="#ip-arrow"/></svg>
@@ -489,7 +547,7 @@
         <div class="ip-benefit"><div class="ic"><svg aria-hidden="true"><use href="#ip-hand"/></svg></div><div><h3>Hands-on creativity <span>thanks to voice control</span></h3><p>One button, their voice, some crayons. No tablet to stare at: they talk, they color, they stick.</p></div></div>
       </div>
       <div class="ip-ben-media">
-        <div class="ip-exploded">{%- render 'ip-media', image: s.img_14, id: 'IMG-14', label: 'Exploded view: mic, big button, thermal roll, battery', size: '2400 × 2400 px · 1:1', ratio: '1/1', sizes: '(min-width: 960px) 520px, 100vw' -%}</div>
+        <div class="ip-exploded">{%- render 'ip-media', image: img_14, id: 'IMG-14', label: 'Exploded view: mic, big button, thermal roll, battery', size: '2400 × 2400 px · 1:1', ratio: '1/1', sizes: '(min-width: 960px) 520px, 100vw' -%}</div>
         <div class="ip-callouts">
           <div>Built-in mic<small>they talk, it listens</small></div>
           <div>One big button<small>easy from age {{ s.min_age }}</small></div>
@@ -524,20 +582,20 @@
           <legend>Choose your kit</legend>
           <label class="ip-pack">
             <input type="radio" name="ip-kit" value="{{ v_starter.id }}" data-kit="starter">
-            <span class="thumb">{%- render 'ip-media', image: s.img_23a, id: 'IMG-23a', label: 'Starter Kit', size: '800 × 800', ratio: '1/1', sizes: '64px' -%}</span>
+            <span class="thumb">{%- render 'ip-media', image: img_23a, id: 'IMG-23a', label: 'Starter Kit', size: '800 × 800', ratio: '1/1', sizes: '64px' -%}</span>
             <span><span class="name">Starter Kit</span><span class="desc">The printer + 3 rolls + 6 crayons</span><span class="unit">≈ {{ s.starter_stickers }} stickers · {{ starter_unit | money }} per sticker</span></span>
             <span class="pr"><b>{{ v_starter.price | money_without_trailing_zeros }}</b></span>
           </label>
           <label class="ip-pack">
             <span class="tag">Our pick</span>
             <input type="radio" name="ip-kit" value="{{ v_creative.id }}" data-kit="creative" checked>
-            <span class="thumb">{%- render 'ip-media', image: s.img_23b, id: 'IMG-23b', label: 'Creative Kit', size: '800 × 800', ratio: '1/1', sizes: '64px' -%}</span>
+            <span class="thumb">{%- render 'ip-media', image: img_23b, id: 'IMG-23b', label: 'Creative Kit', size: '800 × 800', ratio: '1/1', sizes: '64px' -%}</span>
             <span><span class="name">Creative Kit</span><span class="desc">The printer + 10 rolls + 12 washable markers + sticker binder</span><span class="unit">≈ {{ s.creative_stickers }} stickers · {{ creative_unit | money }} per sticker</span></span>
             <span class="pr"><b>{{ v_creative.price | money_without_trailing_zeros }}</b><span class="ip-save">−{{ creative_save | money_without_trailing_zeros }}</span></span>
           </label>
           <label class="ip-pack">
             <input type="radio" name="ip-kit" value="{{ v_siblings.id }}" data-kit="siblings">
-            <span class="thumb">{%- render 'ip-media', image: s.img_23c, id: 'IMG-23c', label: 'Siblings Kit', size: '800 × 800', ratio: '1/1', sizes: '64px' -%}</span>
+            <span class="thumb">{%- render 'ip-media', image: img_23c, id: 'IMG-23c', label: 'Siblings Kit', size: '800 × 800', ratio: '1/1', sizes: '64px' -%}</span>
             <span><span class="name">Siblings Kit</span><span class="desc">2 printers + 10 rolls + 2 crayon sets</span><span class="unit">That’s {{ siblings_unit | money }} per printer</span></span>
             <span class="pr"><b>{{ v_siblings.price | money_without_trailing_zeros }}</b><span class="ip-save">−{{ siblings_save | money_without_trailing_zeros }}</span></span>
           </label>
@@ -616,13 +674,13 @@
 <section class="alt">
   <div class="ip-wrap">
     <div class="ip-emo-grid">
-      <div class="ip-emo-img">{%- render 'ip-media', image: s.img_16, id: 'IMG-16', label: 'Kitchen, late afternoon: the parent cooks, the child invents at the table', size: '2400 × 1800 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 600px, 100vw' -%}</div>
+      <div class="ip-emo-img">{%- render 'ip-media', image: img_16, id: 'IMG-16', label: 'Kitchen, late afternoon: the parent cooks, the child invents at the table', size: '2400 × 1800 px · 4:3', ratio: '4/3', sizes: '(min-width: 960px) 600px, 100vw' -%}</div>
       <div style="display:grid;gap:18px;min-width:0">
         <h2>Calm while you cook. Giggles while they invent.</h2>
         <div class="ip-moments">
-          <div class="ip-moment"><div class="m">{%- render 'ip-media', image: s.img_17, id: 'IMG-17', label: 'Road trip', size: '1200 × 1200', ratio: '1/1', sizes: '76px' -%}</div><div><h3>Road trips</h3><p>One roll, some crayons: the miles fly by in ideas.</p></div></div>
-          <div class="ip-moment"><div class="m">{%- render 'ip-media', image: s.img_18, id: 'IMG-18', label: 'Rainy afternoon', size: '1200 × 1200', ratio: '1/1', sizes: '76px' -%}</div><div><h3>Rainy afternoons</h3><p>They invent, and every friend lines up for a sticker.</p></div></div>
-          <div class="ip-moment"><div class="m">{%- render 'ip-media', image: s.img_19, id: 'IMG-19', label: 'Card for Grandma', size: '1200 × 1200', ratio: '1/1', sizes: '76px' -%}</div><div><h3>Grandma’s birthday card</h3><p>Grandma as a superhero, colored with love.</p></div></div>
+          <div class="ip-moment"><div class="m">{%- render 'ip-media', image: img_17, id: 'IMG-17', label: 'Road trip', size: '1200 × 1200', ratio: '1/1', sizes: '76px' -%}</div><div><h3>Road trips</h3><p>One roll, some crayons: the miles fly by in ideas.</p></div></div>
+          <div class="ip-moment"><div class="m">{%- render 'ip-media', image: img_18, id: 'IMG-18', label: 'Rainy afternoon', size: '1200 × 1200', ratio: '1/1', sizes: '76px' -%}</div><div><h3>Rainy afternoons</h3><p>They invent, and every friend lines up for a sticker.</p></div></div>
+          <div class="ip-moment"><div class="m">{%- render 'ip-media', image: img_19, id: 'IMG-19', label: 'Card for Grandma', size: '1200 × 1200', ratio: '1/1', sizes: '76px' -%}</div><div><h3>Grandma’s birthday card</h3><p>Grandma as a superhero, colored with love.</p></div></div>
         </div>
         <a class="ip-cta" href="#ip-offer">{{ cta }} <span class="arr" aria-hidden="true">→</span></a>
       </div>
@@ -636,9 +694,9 @@
   <div class="ip-wrap">
     <div class="ip-narrow ip-center"><p class="ip-eyebrow">At home</p><h2>What parents tell us</h2></div>
     <div class="ip-testis">
-      <article class="ip-testi">{%- render 'ip-media', image: s.img_20, id: 'IMG-20', label: 'Real customer photo or 15-30 s video', size: '1920 × 1080 px · 16:9', ratio: '16/9', sizes: '(min-width: 860px) 360px, 100vw' -%}<div class="body"><span class="ip-ex">EXAMPLE LAYOUT</span><blockquote>“She printed the whole family as superheroes. The fridge is full.”</blockquote><p class="who"><b>Sophie M.</b>, mom of Ines (7)</p></div></article>
-      <article class="ip-testi">{%- render 'ip-media', image: s.img_21, id: 'IMG-21', label: 'Real customer photo or 15-30 s video', size: '1920 × 1080 px · 16:9', ratio: '16/9', sizes: '(min-width: 860px) 360px, 100vw' -%}<div class="body"><span class="ip-ex">EXAMPLE LAYOUT</span><blockquote>“He invents animals that don’t exist, and tells me the story of every sticker.”</blockquote><p class="who"><b>Julien B.</b>, dad of Noah (5)</p></div></article>
-      <article class="ip-testi">{%- render 'ip-media', image: s.img_22, id: 'IMG-22', label: 'Real customer photo or 15-30 s video', size: '1920 × 1080 px · 16:9', ratio: '16/9', sizes: '(min-width: 860px) 360px, 100vw' -%}<div class="body"><span class="ip-ex">EXAMPLE LAYOUT</span><blockquote>“Four hours on the road, and the tablet stayed in the bag.”</blockquote><p class="who"><b>Camille R.</b>, mom of Leo (6)</p></div></article>
+      <article class="ip-testi">{%- render 'ip-media', image: img_20, id: 'IMG-20', label: 'Real customer photo or 15-30 s video', size: '1920 × 1080 px · 16:9', ratio: '16/9', sizes: '(min-width: 860px) 360px, 100vw' -%}<div class="body"><span class="ip-ex">EXAMPLE LAYOUT</span><blockquote>“She printed the whole family as superheroes. The fridge is full.”</blockquote><p class="who"><b>Sophie M.</b>, mom of Ines (7)</p></div></article>
+      <article class="ip-testi">{%- render 'ip-media', image: img_21, id: 'IMG-21', label: 'Real customer photo or 15-30 s video', size: '1920 × 1080 px · 16:9', ratio: '16/9', sizes: '(min-width: 860px) 360px, 100vw' -%}<div class="body"><span class="ip-ex">EXAMPLE LAYOUT</span><blockquote>“He invents animals that don’t exist, and tells me the story of every sticker.”</blockquote><p class="who"><b>Julien B.</b>, dad of Noah (5)</p></div></article>
+      <article class="ip-testi">{%- render 'ip-media', image: img_22, id: 'IMG-22', label: 'Real customer photo or 15-30 s video', size: '1920 × 1080 px · 16:9', ratio: '16/9', sizes: '(min-width: 860px) 360px, 100vw' -%}<div class="body"><span class="ip-ex">EXAMPLE LAYOUT</span><blockquote>“Four hours on the road, and the tablet stayed in the bag.”</blockquote><p class="who"><b>Camille R.</b>, mom of Leo (6)</p></div></article>
     </div>
     <div class="ip-sec-cta"><a class="ip-cta" href="#ip-offer">{{ cta }} <span class="arr" aria-hidden="true">→</span></a></div>
   </div>
@@ -742,7 +800,7 @@
 <!-- S16 Sticky bar -->
 <div class="ip-sticky" data-ip-sticky>
   <div class="in">
-    <span class="thumb">{%- render 'ip-media', image: s.img_23b, id: 'IMG-23', label: 'Kit', size: '', ratio: '1/1', sizes: '48px' -%}</span>
+    <span class="thumb">{%- render 'ip-media', image: img_23b, id: 'IMG-23', label: 'Kit', size: '', ratio: '1/1', sizes: '48px' -%}</span>
     <span class="t"><b data-sticky-price>{{ v_creative.price | money_without_trailing_zeros }}</b><span data-sticky-name>Creative Kit</span></span>
     <button class="ip-cta" type="button" data-ip-sticky-add>{{ cta }}</button>
   </div>
@@ -883,69 +941,314 @@
   "name": "Idea Printer landing",
   "class": "ip-section",
   "settings": [
-    { "type": "header", "content": "Preview" },
-    { "type": "checkbox", "id": "preview_notice", "label": "Show the preview notice at the top", "default": true },
-    { "type": "checkbox", "id": "show_examples", "label": "Show example testimonials and reviews (turn off before publishing unless replaced)", "default": true },
-    { "type": "header", "content": "Text and values to confirm" },
-    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Get my Idea Printer" },
-    { "type": "text", "id": "bar_1", "label": "Announcement 1", "default": "Free shipping" },
-    { "type": "text", "id": "bar_2", "label": "Announcement 2", "default": "2-year warranty" },
-    { "type": "text", "id": "bar_3", "label": "Announcement 3", "default": "30-day returns" },
-    { "type": "text", "id": "rating", "label": "Average rating", "default": "4.7" },
-    { "type": "number", "id": "review_count", "label": "Number of real reviews (rating shows from 10)", "default": 0 },
-    { "type": "number", "id": "starter_stickers", "label": "Stickers in the Starter Kit", "default": 180 },
-    { "type": "number", "id": "creative_stickers", "label": "Stickers in the Creative Kit", "default": 600 },
-    { "type": "number", "id": "stickers_per_roll", "label": "Stickers per roll", "default": 60 },
-    { "type": "text", "id": "min_age", "label": "Minimum age", "default": "4" },
-    { "type": "text", "id": "battery", "label": "Battery life", "default": "4 h" },
-    { "type": "text", "id": "dimensions", "label": "Dimensions", "default": "3.7 × 3.2 in" },
-    { "type": "text", "id": "weight", "label": "Weight", "default": "9.9 oz" },
-    { "type": "text", "id": "certifications", "label": "Safety standards", "default": "CE and EN 71" },
-    { "type": "text", "id": "shipping_text", "label": "Shipping promise", "default": "Free shipping in 3-5 business days" },
-    { "type": "text", "id": "gift_deadline", "label": "Christmas order deadline (leave empty to hide)", "default": "December 18" },
-    { "type": "textarea", "id": "voice_answer", "label": "FAQ: what happens to the voice", "default": "it is turned into text and then deleted, never stored or used for advertising." },
-    { "type": "textarea", "id": "wifi_answer", "label": "FAQ: phone and Wi-Fi", "default": "Wi-Fi is used to create the drawings. Setup happens once in the app and takes about 3 minutes; after that, your child only needs the button." },
-    { "type": "textarea", "id": "filter_answer", "label": "FAQ: content filters", "default": "Requests that aren’t suitable for children are filtered and replaced by a neutral drawing." },
-    { "type": "text", "id": "contact_email", "label": "Contact email", "default": "hello@maison-ivy.com" },
-    { "type": "header", "content": "Products sold separately (price anchoring and cart upsell)" },
-    { "type": "product", "id": "refill_product", "label": "Refill, 5 rolls" },
-    { "type": "product", "id": "markers_product", "label": "Washable markers, set of 12" },
-    { "type": "product", "id": "binder_product", "label": "Sticker binder" },
-    { "type": "header", "content": "Hero (S2)" },
-    { "type": "video", "id": "hero_video", "label": "IMG-02 Hero loop video (8 s, muted, 4:3)" },
-    { "type": "image_picker", "id": "img_01", "label": "IMG-01 Action photo / video poster (2400 × 1800)" },
-    { "type": "image_picker", "id": "img_03", "label": "IMG-03 Sticker close-up (2000 × 1500)" },
-    { "type": "image_picker", "id": "img_04", "label": "IMG-04 Creative Kit flat lay (2400 × 2400)" },
-    { "type": "image_picker", "id": "img_15", "label": "IMG-15 Scale in hand (1600 × 1200)" },
-    { "type": "image_picker", "id": "img_24", "label": "IMG-24 Unboxing (1600 × 1200)" },
-    { "type": "image_picker", "id": "img_25", "label": "IMG-25 Customer photo (1600 × 1200)" },
-    { "type": "header", "content": "How it works (S4)" },
-    { "type": "image_picker", "id": "img_05", "label": "IMG-05 Step 1 (1600 × 1200)" },
-    { "type": "image_picker", "id": "img_06", "label": "IMG-06 Step 2 (1600 × 1200)" },
-    { "type": "image_picker", "id": "img_07", "label": "IMG-07 Step 3 (1600 × 1200)" },
-    { "type": "header", "content": "Ideas gallery (S5): real printed stickers" },
-    { "type": "image_picker", "id": "img_08", "label": "IMG-08 Dinosaur eating spaghetti (1200 × 1200)" },
-    { "type": "image_picker", "id": "img_09", "label": "IMG-09 Grandma as a superhero (1200 × 1200)" },
-    { "type": "image_picker", "id": "img_10", "label": "IMG-10 Unicorn with a briefcase (1200 × 1200)" },
-    { "type": "image_picker", "id": "img_11", "label": "IMG-11 Cat astronaut (1200 × 1200)" },
-    { "type": "image_picker", "id": "img_12", "label": "IMG-12 Pizza that goes skiing (1200 × 1200)" },
-    { "type": "image_picker", "id": "img_13", "label": "IMG-13 Pirate dad scared of waves (1200 × 1200)" },
-    { "type": "header", "content": "Benefits (S6) and kits (S7)" },
-    { "type": "image_picker", "id": "img_14", "label": "IMG-14 Exploded view (2400 × 2400)" },
-    { "type": "image_picker", "id": "img_23a", "label": "IMG-23a Starter Kit thumbnail (800 × 800)" },
-    { "type": "image_picker", "id": "img_23b", "label": "IMG-23b Creative Kit thumbnail (800 × 800)" },
-    { "type": "image_picker", "id": "img_23c", "label": "IMG-23c Siblings Kit thumbnail (800 × 800)" },
-    { "type": "header", "content": "Emotion (S9) and testimonials (S10)" },
-    { "type": "image_picker", "id": "img_16", "label": "IMG-16 Kitchen scene (2400 × 1800)" },
-    { "type": "image_picker", "id": "img_17", "label": "IMG-17 Road trip (1200 × 1200)" },
-    { "type": "image_picker", "id": "img_18", "label": "IMG-18 Rainy afternoon (1200 × 1200)" },
-    { "type": "image_picker", "id": "img_19", "label": "IMG-19 Card for Grandma (1200 × 1200)" },
-    { "type": "image_picker", "id": "img_20", "label": "IMG-20 Testimonial 1 (1920 × 1080)" },
-    { "type": "image_picker", "id": "img_21", "label": "IMG-21 Testimonial 2 (1920 × 1080)" },
-    { "type": "image_picker", "id": "img_22", "label": "IMG-22 Testimonial 3 (1920 × 1080)" },
-    { "type": "header", "content": "Last call (S14)" },
-    { "type": "video", "id": "demo_video", "label": "30-second demo video" }
+    {
+      "type": "header",
+      "content": "Preview"
+    },
+    {
+      "type": "checkbox",
+      "id": "preview_notice",
+      "label": "Show the preview notice at the top",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_examples",
+      "label": "Show example testimonials and reviews (turn off before publishing unless replaced)",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Text and values to confirm"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Get my Idea Printer"
+    },
+    {
+      "type": "text",
+      "id": "bar_1",
+      "label": "Announcement 1",
+      "default": "Free shipping"
+    },
+    {
+      "type": "text",
+      "id": "bar_2",
+      "label": "Announcement 2",
+      "default": "2-year warranty"
+    },
+    {
+      "type": "text",
+      "id": "bar_3",
+      "label": "Announcement 3",
+      "default": "30-day returns"
+    },
+    {
+      "type": "text",
+      "id": "rating",
+      "label": "Average rating",
+      "default": "4.7"
+    },
+    {
+      "type": "number",
+      "id": "review_count",
+      "label": "Number of real reviews (rating shows from 10)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "starter_stickers",
+      "label": "Stickers in the Starter Kit",
+      "default": 180
+    },
+    {
+      "type": "number",
+      "id": "creative_stickers",
+      "label": "Stickers in the Creative Kit",
+      "default": 600
+    },
+    {
+      "type": "number",
+      "id": "stickers_per_roll",
+      "label": "Stickers per roll",
+      "default": 60
+    },
+    {
+      "type": "text",
+      "id": "min_age",
+      "label": "Minimum age",
+      "default": "4"
+    },
+    {
+      "type": "text",
+      "id": "battery",
+      "label": "Battery life",
+      "default": "4 h"
+    },
+    {
+      "type": "text",
+      "id": "dimensions",
+      "label": "Dimensions",
+      "default": "3.7 × 3.2 in"
+    },
+    {
+      "type": "text",
+      "id": "weight",
+      "label": "Weight",
+      "default": "9.9 oz"
+    },
+    {
+      "type": "text",
+      "id": "certifications",
+      "label": "Safety standards",
+      "default": "CE and EN 71"
+    },
+    {
+      "type": "text",
+      "id": "shipping_text",
+      "label": "Shipping promise",
+      "default": "Free shipping in 3-5 business days"
+    },
+    {
+      "type": "text",
+      "id": "gift_deadline",
+      "label": "Christmas order deadline (leave empty to hide)",
+      "default": "December 18"
+    },
+    {
+      "type": "textarea",
+      "id": "voice_answer",
+      "label": "FAQ: what happens to the voice",
+      "default": "it is turned into text and then deleted, never stored or used for advertising."
+    },
+    {
+      "type": "textarea",
+      "id": "wifi_answer",
+      "label": "FAQ: phone and Wi-Fi",
+      "default": "Wi-Fi is used to create the drawings. Setup happens once in the app and takes about 3 minutes; after that, your child only needs the button."
+    },
+    {
+      "type": "textarea",
+      "id": "filter_answer",
+      "label": "FAQ: content filters",
+      "default": "Requests that aren’t suitable for children are filtered and replaced by a neutral drawing."
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Contact email",
+      "default": "hello@maison-ivy.com"
+    },
+    {
+      "type": "header",
+      "content": "Products sold separately (price anchoring and cart upsell)"
+    },
+    {
+      "type": "product",
+      "id": "refill_product",
+      "label": "Refill, 5 rolls"
+    },
+    {
+      "type": "product",
+      "id": "markers_product",
+      "label": "Washable markers, set of 12"
+    },
+    {
+      "type": "product",
+      "id": "binder_product",
+      "label": "Sticker binder"
+    },
+    {
+      "type": "header",
+      "content": "Hero (S2)"
+    },
+    {
+      "type": "video",
+      "id": "hero_video",
+      "label": "IMG-02 Hero loop video (8 s, muted, 4:3)"
+    },
+    {
+      "type": "header",
+      "content": "Last call (S14)"
+    },
+    {
+      "type": "video",
+      "id": "demo_video",
+      "label": "30-second demo video"
+    }
   ],
-  "presets": [{ "name": "Idea Printer landing" }]
+  "presets": [
+    {
+      "name": "Idea Printer landing"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "visual",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "select",
+          "id": "slot",
+          "label": "Image slot",
+          "options": [
+            {
+              "value": "img_01",
+              "label": "IMG-01 Action photo / video poster (2400 × 1800)"
+            },
+            {
+              "value": "img_03",
+              "label": "IMG-03 Sticker close-up (2000 × 1500)"
+            },
+            {
+              "value": "img_04",
+              "label": "IMG-04 Creative Kit flat lay (2400 × 2400)"
+            },
+            {
+              "value": "img_15",
+              "label": "IMG-15 Scale in hand (1600 × 1200)"
+            },
+            {
+              "value": "img_24",
+              "label": "IMG-24 Unboxing (1600 × 1200)"
+            },
+            {
+              "value": "img_25",
+              "label": "IMG-25 Customer photo (1600 × 1200)"
+            },
+            {
+              "value": "img_05",
+              "label": "IMG-05 Step 1 (1600 × 1200)"
+            },
+            {
+              "value": "img_06",
+              "label": "IMG-06 Step 2 (1600 × 1200)"
+            },
+            {
+              "value": "img_07",
+              "label": "IMG-07 Step 3 (1600 × 1200)"
+            },
+            {
+              "value": "img_08",
+              "label": "IMG-08 Dinosaur eating spaghetti (1200 × 1200)"
+            },
+            {
+              "value": "img_09",
+              "label": "IMG-09 Grandma as a superhero (1200 × 1200)"
+            },
+            {
+              "value": "img_10",
+              "label": "IMG-10 Unicorn with a briefcase (1200 × 1200)"
+            },
+            {
+              "value": "img_11",
+              "label": "IMG-11 Cat astronaut (1200 × 1200)"
+            },
+            {
+              "value": "img_12",
+              "label": "IMG-12 Pizza that goes skiing (1200 × 1200)"
+            },
+            {
+              "value": "img_13",
+              "label": "IMG-13 Pirate dad scared of waves (1200 × 1200)"
+            },
+            {
+              "value": "img_14",
+              "label": "IMG-14 Exploded view (2400 × 2400)"
+            },
+            {
+              "value": "img_23a",
+              "label": "IMG-23a Starter Kit thumbnail (800 × 800)"
+            },
+            {
+              "value": "img_23b",
+              "label": "IMG-23b Creative Kit thumbnail (800 × 800)"
+            },
+            {
+              "value": "img_23c",
+              "label": "IMG-23c Siblings Kit thumbnail (800 × 800)"
+            },
+            {
+              "value": "img_16",
+              "label": "IMG-16 Kitchen scene (2400 × 1800)"
+            },
+            {
+              "value": "img_17",
+              "label": "IMG-17 Road trip (1200 × 1200)"
+            },
+            {
+              "value": "img_18",
+              "label": "IMG-18 Rainy afternoon (1200 × 1200)"
+            },
+            {
+              "value": "img_19",
+              "label": "IMG-19 Card for Grandma (1200 × 1200)"
+            },
+            {
+              "value": "img_20",
+              "label": "IMG-20 Testimonial 1 (1920 × 1080)"
+            },
+            {
+              "value": "img_21",
+              "label": "IMG-21 Testimonial 2 (1920 × 1080)"
+            },
+            {
+              "value": "img_22",
+              "label": "IMG-22 Testimonial 3 (1920 × 1080)"
+            }
+          ],
+          "default": "img_01"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 40
 }
 {% endschema %}
