@@ -631,7 +631,7 @@
           <s data-was>{{ creative_value | money_without_trailing_zeros }}</s>
           <span class="ip-save" data-save>You save {{ creative_save | money_without_trailing_zeros }}</span>
         </div>
-        {%- form 'product', product, class: 'ip-form', data-ip-form: '' -%}
+        {%- form 'product', product, class: 'ip-form', id: 'ip-product-form' -%}
           <input type="hidden" name="id" value="{{ default_variant.id }}" data-ip-variant>
           <button class="ip-cta" type="submit" data-ip-add>{{ cta }} <span class="arr" aria-hidden="true">→</span></button>
           {{ form | payment_button }}
@@ -925,7 +925,7 @@
       .catch(function (e) { err.textContent = e.message + ' Please try again.'; err.hidden = false; })
       .then(function () { if (btn) btn.disabled = false; });
   }
-  $('[data-ip-form]').addEventListener('submit', function (e) { e.preventDefault(); add(variantInput.value, $('[data-ip-add]')); });
+  $('#ip-product-form').addEventListener('submit', function (e) { e.preventDefault(); add(variantInput.value, $('[data-ip-add]')); });
   $('[data-ip-sticky-add]').addEventListener('click', function () { add(variantInput.value, this); });
   var upBtn = $('[data-ip-upsell-add]');
   if (upBtn) upBtn.addEventListener('click', function () { add(this.dataset.variant, this); });
