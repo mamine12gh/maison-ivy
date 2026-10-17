@@ -90,8 +90,12 @@
   assign siblings_unit = v_siblings.price | divided_by: 2
 
   assign show_rating = false
-  if s.review_count >= 10 or s.show_examples
+  assign shown_count = s.review_count
+  if s.review_count >= 10
     assign show_rating = true
+  elsif s.show_examples
+    assign show_rating = true
+    assign shown_count = 126
   endif
   assign cta = s.cta_label | default: 'Get my Idea Printer'
 -%}
@@ -110,7 +114,7 @@
   .ip h3{font-size:20px;font-weight:600;line-height:1.2}
   .ip p{margin:0}
   .ip a{color:var(--sky)}
-  .ip button{font:inherit;color:inherit}
+  .ip :where(button){font:inherit;color:inherit}
   .ip :focus-visible{outline:3px solid var(--sky);outline-offset:3px;border-radius:6px}
   .ip [hidden]{display:none!important}
   .ip-wrap{max-width:var(--wrap);margin:0 auto;padding-inline:16px}
@@ -452,7 +456,7 @@
         </div>
         <h1>If they can say it,<br><em>it prints it.</em></h1>
         {%- if show_rating -%}
-        <div class="ip-stars"><span class="s" aria-hidden="true">★★★★★</span><span>{{ s.rating }}/5 · <a href="#ip-reviews">{{ s.review_count }} parent reviews</a></span>{% if s.review_count < 10 %}<span class="ip-ex">EXAMPLE</span>{% endif %}</div>
+        <div class="ip-stars"><span class="s" aria-hidden="true">★★★★★</span><span>{{ s.rating }}/5 · <a href="#ip-reviews">{{ shown_count }} parent reviews</a></span>{% if s.review_count < 10 %}<span class="ip-ex">EXAMPLE</span>{% endif %}</div>
         {%- endif -%}
       </div>
       <div class="ip-h-bottom">
@@ -707,7 +711,7 @@
   <div class="ip-wrap">
     <div class="ip-narrow ip-center"><p class="ip-eyebrow">Verified reviews</p><h2>Parents are talking</h2></div>
     <div class="ip-rev-head">
-      <div class="ip-score"><span class="big">{{ s.rating }}</span><div><span class="s" aria-label="{{ s.rating }} out of 5">★★★★★</span><small>{{ s.review_count }} parent reviews</small></div></div>
+      <div class="ip-score"><span class="big">{{ s.rating }}</span><div><span class="s" aria-label="{{ s.rating }} out of 5">★★★★★</span><small>{{ shown_count }} parent reviews</small>{% if s.review_count < 10 %} <span class="ip-ex">EXAMPLE</span>{% endif %}</div></div>
       <div class="ip-dist" aria-label="Rating breakdown">
         <div><span>5 ★</span><span class="tr"><i style="width:82%"></i></span><span>82%</span></div>
         <div><span>4 ★</span><span class="tr"><i style="width:13%"></i></span><span>13%</span></div>
